@@ -2,15 +2,16 @@ group_vars:
   openstack:
     servers:
       - name: vm1
-        auth_url: http://dev-controller01:5000
-        username: openstack_operator
-        password: secret
-        project_name: default_project
-        user_domain_name: Default
-        project_domain_name: Default
         image: example_cirros
         key_name: default_ssh_key
         flavor: m1.tiny
+        auth:
+          auth_url: http://dev-controller01:5000
+          username: openstack_operator
+          password: secret
+          project_name: default_project
+          user_domain_name: Default
+          project_domain_name: Default
         timeout: 300
         nics:
-          net_name: private
+          - net_name: private_net
