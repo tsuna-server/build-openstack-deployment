@@ -11,5 +11,6 @@ group_vars:
         image: example_cirros
         key_name: default_ssh_key
         flavor: m1.tiny
+        timeout: 300
         nics:
           net_name: private
