@@ -1,5 +1,0 @@
----
-- name: Deeeeeeeeeeeeeebug
-  ansible.builtin.debug:
-    msg: "ffffffffffffffffffffffffffffffff"
-
