@@ -12,5 +12,5 @@
   include: prepare_images/main.yml
   loop_control:
     loop_var: image
-  loop: "{{ group_vars.openstack.images }}
+  loop: "{{ group_vars.openstack.images }}"
 
