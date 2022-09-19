@@ -1,3 +1,36 @@
 ---
 # A task is to create a server
+#
+# An expected variable to be passed are below.
+#   server:
+#     A variable of dictionary of the server that will be created.
+#   server.auth_url (optional):
+#     An auth URL to create the server.
+
+- name: Print a server will be created
+  ansible.builtin.debug:
+    msg: "server.name={{ server.name }}, server.image={{ server.image }}, server.key_name={{ server.key_name }}, server.auth.auth_url={{ server.auth.auth_url }}, server.auth.username={{ server.auth.username }}, server.auth.project_name={{ server.auth.project_name }}, server.auth.user_domain_name={{ server.auth.user_domain_name }}, server.auth.project_domain_name={{ server.auth.project_domain_name }}, server.nics."
+
+- name: Create a new instance
+  openstack.cloud.server:
+    state: present
+    name: "{{ server.name }}"
+    image: "{{ server.image }}"
+    key_name: "{{ server.key_name }}"
+    auth:
+      auth_url: "{{ server.auth.auth_url }}"
+      username: "{{ server.auth.username }}"
+      password: "{{ server.auth.password }}"
+      project_name: "{{ server.auth.project_name }}"
+      user_domain_name: "{{ server.auth.user_domain_name }}"
+      project_domain_name: "{{ server.auth.project_domain_name }}"
+    # A format of a key 'nics: "{{ server.nics }}"' is equivarent to
+    #   nics:
+    #     - net-name: network_name
+    #       nics:
+    #         - net-id: xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    #         - net-name: name_of_network
+    nics: "{{ server.nics }}"
+    timeout: "{{ server.timeout }}"
+    flavor: "{{ server.flavor }}"
 
