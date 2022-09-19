@@ -1,0 +1,56 @@
+---
+# This task create an image.
+# If a file of image was not existed, this instruction will download it.
+# Variables declared are bloew.
+#   image_directory:
+#     A directory path that images will be downloaded.
+#
+#   image:
+#     A dictionary contains informations of image.
+
+# Download a file of an image
+
+- name: Declare iso file image name
+  set_fact:
+    iso_file_name: "{{ image.name }}.img"
+
+- name: Declare iso full image path
+  set_fact:
+    full_iso_file_path: "{{ [image_directory, iso_file_name] | path_join }}"
+
+- name: Check an iso file of it has already downloaded
+  stat:
+    path: "{{ full_iso_file_path }}"
+  register: flag_file
+
+- name: Download base image if it has not existed
+  get_url:
+    url: "{{ image.download_url }}"
+    dest: "{{ full_iso_file_path }}"
+    timeout: 900
+  retries: 3
+  delay: 2
+  when: not flag_file.stat.exists
+
+# Declare an image
+- name: Declare an image
+  openstack.cloud.image:
+    auth:
+      auth_url: "{{ server.auth.auth_url }}"
+      username: "{{ server.auth.username }}"
+      password: "{{ server.auth.password }}"
+      project_name: "{{ server.auth.project_name }}"
+      user_domain_name: "{{ server.auth.user_domain_name }}"
+      project_domain_name: "{{ server.auth.project_domain_name }}"
+  name: "{{ image.name }}"
+  container_format: bare
+  disk_format: qcow2
+  state: present
+  filename: "{{ full_iso_file_path }}"
+  tags:
+    - custom
+  properties:
+    cpu_arch: "{{ image.cpu_arch }}"
+    distro: "{{ image.distro }}"
+
+

@@ -1,0 +1,16 @@
+---
+- name: Declare a variable of directory that images downloaded in
+  set_fact:
+    image_directory: "/var/openstack/images"
+
+- name: Prepare directory that images will be downloaded
+  file:
+    path: "{{ image_directory }}"
+    state: directory
+
+- name: Prepare images
+  include: prepare_images/main.yml
+  loop_control:
+    loop_var: image
+  loop: "{{ group_vars.openstack.images }}
+
