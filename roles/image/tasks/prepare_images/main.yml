@@ -36,12 +36,13 @@
 - name: Declare an image
   openstack.cloud.image:
     auth:
-      auth_url: "{{ server.auth.auth_url }}"
-      username: "{{ server.auth.username }}"
-      password: "{{ server.auth.password }}"
-      project_name: "{{ server.auth.project_name }}"
-      user_domain_name: "{{ server.auth.user_domain_name }}"
-      project_domain_name: "{{ server.auth.project_domain_name }}"
+      # TODO: This instruction can take default auth parameters.
+      auth_url: "{{ group_vars.openstack.defaults.auth.auth_url }}"
+      username: "{{ group_vars.openstack.defaults.auth.username }}"
+      password: "{{ group_vars.openstack.defaults.auth.password }}"
+      project_name: "{{ group_vars.openstack.defaults.auth.project_name }}"
+      user_domain_name: "{{ group_vars.openstack.defaults.auth.user_domain_name }}"
+      project_domain_name: "{{ group_vars.openstack.defaults.auth.project_domain_name }}"
   name: "{{ image.name }}"
   container_format: bare
   disk_format: qcow2
