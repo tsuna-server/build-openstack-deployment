@@ -1,5 +1,13 @@
 group_vars:
   openstack:
+    defaults:
+      auth_url: http://dev-controller01:5000
+      username: openstack_operator
+      password: secret
+      project_name: default_project
+      user_domain_name: Default
+      project_domain_name: Default
+
     images:
       - name: image-cirros-0.5.2
         download_url: "http://download.cirros-cloud.net/0.5.2/cirros-0.5.2-x86_64-disk.img"
