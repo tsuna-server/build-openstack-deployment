@@ -2,5 +2,5 @@
 - hosts: all
   become: yes
   roles:
-    - { role: server, tags: ['role_server']}
     - { role: image, tags: ['role_image']}
+    - { role: server, tags: ['role_server']}

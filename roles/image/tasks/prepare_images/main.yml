@@ -32,6 +32,10 @@
   delay: 2
   when: not flag_file.stat.exists
 
+- name: Print an image that will be created
+  ansible.builtin.debug:
+    msg: "image.name={{ image.name }}, filename={{ full_iso_file_path }}, image.cpu_arch={{ image.cpu_arch }}, image.distro={{ image.distro }}"
+
 # Declare an image
 - name: Declare an image
   openstack.cloud.image:
@@ -43,15 +47,15 @@
       project_name: "{{ group_vars.openstack.defaults.auth.project_name }}"
       user_domain_name: "{{ group_vars.openstack.defaults.auth.user_domain_name }}"
       project_domain_name: "{{ group_vars.openstack.defaults.auth.project_domain_name }}"
-  name: "{{ image.name }}"
-  container_format: bare
-  disk_format: qcow2
-  state: present
-  filename: "{{ full_iso_file_path }}"
-  tags:
-    - custom
-  properties:
-    cpu_arch: "{{ image.cpu_arch }}"
-    distro: "{{ image.distro }}"
+    name: "{{ image.name }}"
+    container_format: bare
+    disk_format: qcow2
+    state: present
+    filename: "{{ full_iso_file_path }}"
+    tags:
+      - custom
+    properties:
+      cpu_arch: "{{ image.cpu_arch }}"
+      distro: "{{ image.distro }}"
 
 
