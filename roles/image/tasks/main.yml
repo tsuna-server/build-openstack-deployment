@@ -1,9 +1,9 @@
 ---
-- name: Declare a variable of directory that images downloaded in
+- name: Declare a variable of directory that images will be downloaded in
   set_fact:
     image_directory: "/var/openstack/images"
 
-- name: Prepare directory that images will be downloaded
+- name: Prepare directory that images will be downloaded in
   file:
     path: "{{ image_directory }}"
     state: directory
