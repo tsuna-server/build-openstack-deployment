@@ -32,3 +32,5 @@ group_vars:
         timeout: 300
         nics:
           - net_name: private_net
+        security_groups:
+          - default_security_group

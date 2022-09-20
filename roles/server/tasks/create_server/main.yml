@@ -24,7 +24,7 @@
       project_name: "{{ server.auth.project_name }}"
       user_domain_name: "{{ server.auth.user_domain_name }}"
       project_domain_name: "{{ server.auth.project_domain_name }}"
-    # A format of a key 'nics: "{{ server.nics }}"' is equivarent to
+    # A format of a key 'nics: "{{ server.nics }}"' is equivarent to...
     #   nics:
     #     - net-name: network_name
     #       nics:
@@ -33,4 +33,7 @@
     nics: "{{ server.nics }}"
     timeout: "{{ server.timeout }}"
     flavor: "{{ server.flavor }}"
+    # A format of a key 'security_groups: "{{ server.security_groups }}"' is equivarent to...
+    #   security_groups:
+    security_groups: "{{ server.security_groups }}"
 
