@@ -1,0 +1,9 @@
+# An inventry file for development
+[controllers]
+dev-controller01
+
+[default:children]
+controllers
+
+[all:children]
+default

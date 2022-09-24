@@ -1,0 +1,7 @@
+---
+# Variables in this file will be used in a role server.
+# Each key names 'ssh_public_keys.<server_name>' will be applied in each servers in OpenStack.
+# If you specified 'ssh_public_keys.default' and there are any names that matches servers, it will be applied.
+ssh_public_keys:
+  default: "ssh-ed25519 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx example@build-openstack-deployment"
+
