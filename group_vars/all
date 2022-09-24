@@ -21,10 +21,9 @@ group_vars:
     servers:
       - name: vm1
         image: cirros-0.5.2
-        # It is a name of variable for ssh public key that will be registered to instances on OpenStack.
-        # The Ansible will reference with the variable name "ssh_public_keys.<key_variable_name>".
-        # If you does not declare this key:value, a variable named "default" will be used.
-        key_variable_name: default
+        # A variable 'ssh_public_key_pair_name' is optional.
+        # A server will be created containing with ssh public key pair if you declared it.
+        ssh_public_key_pair_name: default
         flavor: m1.tiny
         auth:
           auth_url: http://dev-controller01:5000
