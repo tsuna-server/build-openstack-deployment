@@ -9,31 +9,14 @@
 
 - name: Print a server will be created
   ansible.builtin.debug:
-    msg: "server.name={{ server.name }}, server.image={{ server.image }}, server.key_name={{ server.key_name }}, server.auth.auth_url={{ server.auth.auth_url }}, server.auth.username={{ server.auth.username }}, server.auth.project_name={{ server.auth.project_name }}, server.auth.user_domain_name={{ server.auth.user_domain_name }}, server.auth.project_domain_name={{ server.auth.project_domain_name }}, server.nics."
+    msg: "server.name={{ server.name }}, server.image={{ server.image }}, {% if 'ssh_public_key_pair_name' in server %}server.key_name={{ server.ssh_public_key_pair_name }}{% endif %}, server.auth.auth_url={{ server.auth.auth_url }}, server.auth.username={{ server.auth.username }}, server.auth.project_name={{ server.auth.project_name }}, server.auth.user_domain_name={{ server.auth.user_domain_name }}, server.auth.project_domain_name={{ server.auth.project_domain_name }}, server.nics."
 
-- name: Create a new instance
-  openstack.cloud.server:
-    state: present
-    name: "{{ server.name }}"
-    image: "{{ server.image }}"
-    key_name: "{{ server.key_name }}"
-    auth:
-      auth_url: "{{ server.auth.auth_url }}"
-      username: "{{ server.auth.username }}"
-      password: "{{ server.auth.password }}"
-      project_name: "{{ server.auth.project_name }}"
-      user_domain_name: "{{ server.auth.user_domain_name }}"
-      project_domain_name: "{{ server.auth.project_domain_name }}"
-    # A format of a key 'nics: "{{ server.nics }}"' is equivarent to...
-    #   nics:
-    #     - net-name: network_name
-    #       nics:
-    #         - net-id: xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    #         - net-name: name_of_network
-    nics: "{{ server.nics }}"
-    timeout: "{{ server.timeout }}"
-    flavor: "{{ server.flavor }}"
-    # A format of a key 'security_groups: "{{ server.security_groups }}"' is equivarent to...
-    #   security_groups:
-    security_groups: "{{ server.security_groups }}"
+  # FIXME: Creating a server like below is not a flexible way.
+- name: Include do_create_server.yml if you did not declare ssh_public_key_pair_name
+  include: do_create_server.yml
+  when: "'ssh_public_key_pair_name' not in server"
+
+- name: Include do_create_server_with_ssh_public_key_pair.yml if you declared ssh_public_key_pair_name
+  include: do_create_server_with_ssh_public_key_pair.yml
+  when: "'ssh_public_key_pair_name' in server"
 
