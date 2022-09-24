@@ -1,0 +1,12 @@
+---
+# A role to create servers on OpenStack
+
+- name: Include create_server/main.yml
+  include: create_server/main.yml
+  loop_control:
+    loop_var: server
+  loop: "{{ group_vars.openstack.servers }}"
+
+#- name: Include list_servers.yml
+#  include: list_servers/main.yml
+

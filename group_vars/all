@@ -1,0 +1,39 @@
+group_vars:
+  openstack:
+    defaults:
+      auth:
+        auth_url: http://dev-controller01:5000
+        username: openstack_operator
+        password: secret
+        project_name: default_project
+        user_domain_name: Default
+        project_domain_name: Default
+
+    images:
+      - name: cirros-0.5.2
+        download_url: "http://download.cirros-cloud.net/0.5.2/cirros-0.5.2-x86_64-disk.img"
+        cpu_arch: "x86_64"
+        distro: "cirros"
+      - name: ubuntu-22.04
+        download_url: "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+        cpu_arch: "x86_64"
+        distro: "ubuntu"
+    servers:
+      - name: vm1
+        image: cirros-0.5.2
+        # A variable 'ssh_public_key_pair_name' is optional.
+        # A server will be created containing with ssh public key pair if you declared it.
+        ssh_public_key_pair_name: default
+        flavor: m1.tiny
+        auth:
+          auth_url: http://dev-controller01:5000
+          username: openstack_operator
+          password: secret
+          project_name: default_project
+          user_domain_name: Default
+          project_domain_name: Default
+        timeout: 300
+        nics:
+          - net_name: private_net
+        security_groups:
+          - default_security_group
