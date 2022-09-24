@@ -1,6 +1,9 @@
 ---
-- hosts: all
+- name: "Common roles to deploy servers"
+  hosts: all
   become: yes
   roles:
     - { role: image, tags: ['role_image']}
     - { role: server, tags: ['role_server']}
+  vars_files:
+    - "external_vars/ssh_public_keys.yml"

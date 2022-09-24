@@ -1,15 +1,16 @@
 group_vars:
   openstack:
     defaults:
-      auth_url: http://dev-controller01:5000
-      username: openstack_operator
-      password: secret
-      project_name: default_project
-      user_domain_name: Default
-      project_domain_name: Default
+      auth:
+        auth_url: http://dev-controller01:5000
+        username: openstack_operator
+        password: secret
+        project_name: default_project
+        user_domain_name: Default
+        project_domain_name: Default
 
     images:
-      - name: image-cirros-0.5.2
+      - name: cirros-0.5.2
         download_url: "http://download.cirros-cloud.net/0.5.2/cirros-0.5.2-x86_64-disk.img"
         cpu_arch: "x86_64"
         distro: "cirros"
@@ -19,8 +20,11 @@ group_vars:
         distro: "ubuntu"
     servers:
       - name: vm1
-        image: example_cirros
-        key_name: default_ssh_key
+        image: cirros-0.5.2
+        # It is a name of variable for ssh public key that will be registered to instances on OpenStack.
+        # The Ansible will reference with the variable name "ssh_public_keys.<key_variable_name>".
+        # If you does not declare this key:value, a variable named "default" will be used.
+        key_variable_name: default
         flavor: m1.tiny
         auth:
           auth_url: http://dev-controller01:5000
