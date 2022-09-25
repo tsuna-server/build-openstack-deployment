@@ -13,10 +13,10 @@
 
   # FIXME: Creating a server like below is not a flexible way.
 - name: Include do_create_server.yml if you did not declare ssh_public_key_pair_name
-  include: do_create_server.yml
+  include_tasks: do_create_server.yml
   when: "'ssh_public_key_pair_name' not in server"
 
 - name: Include do_create_server_with_ssh_public_key_pair.yml if you declared ssh_public_key_pair_name
-  include: do_create_server_with_ssh_public_key_pair.yml
+  include_tasks: do_create_server_with_ssh_public_key_pair.yml
   when: "'ssh_public_key_pair_name' in server"
 
