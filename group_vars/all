@@ -1,13 +1,18 @@
 group_vars:
   openstack:
-    defaults:
-      auth:
-        auth_url: http://dev-controller01:5000
-        username: openstack_operator
-        password: secret
-        project_name: default_project
-        user_domain_name: Default
-        project_domain_name: Default
+    auth:
+      # Key "name" is a config name of authentications. It will be used to identify them.
+      # Other under a key "parameters" follows an auth parameter of module openstack.cloud.server.
+      # You can declare auth_url, username, password for example.
+      # For more details, please refer to a document of it.
+      - name: default
+        parameters:
+          auth_url: http://dev-controller01:5000
+          username: openstack_operator
+          password: secret
+          project_name: default_project
+          user_domain_name: Default
+          project_domain_name: Default
 
     images:
       - name: cirros-0.5.2
