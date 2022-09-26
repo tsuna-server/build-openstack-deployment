@@ -42,3 +42,7 @@ group_vars:
           - net_name: private_net
         security_groups:
           - default_security_group
+
+    ssh_public_keys:
+      - name: default
+        value: "ssh-ed25519 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx tsutomu@arch"
