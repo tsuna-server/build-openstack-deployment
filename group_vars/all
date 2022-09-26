@@ -5,7 +5,7 @@ group_vars:
       # Other under a key "parameters" follows an auth parameter of module openstack.cloud.server.
       # You can declare auth_url, username, password for example.
       # For more details, please refer to a document of it.
-      - name: default
+      - name: default_auth
         parameters:
           auth_url: http://dev-controller01:5000
           username: openstack_operator
@@ -44,5 +44,5 @@ group_vars:
           - default_security_group
 
     ssh_public_keys:
-      - name: default
+      - name: default_key
         value: "ssh-ed25519 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx tsutomu@arch"
