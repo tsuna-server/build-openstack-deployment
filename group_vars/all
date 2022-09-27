@@ -1,18 +1,5 @@
 group_vars:
   openstack:
-    auth:
-      # Key "name" is a config name of authentications. It will be used to identify them.
-      # Other under a key "parameters" follows an auth parameter of module openstack.cloud.server.
-      # You can declare auth_url, username, password for example.
-      # For more details, please refer to a document of it.
-      - name: default_auth
-        parameters:
-          auth_url: http://dev-controller01:5000
-          username: openstack_operator
-          password: secret
-          project_name: default_project
-          user_domain_name: Default
-          project_domain_name: Default
 
     images:
       - name: cirros-0.5.2
@@ -43,6 +30,24 @@ group_vars:
         security_groups:
           - default_security_group
 
+    # Parameters below are constructed as dictionary.
+    # "group_vars.openstack.auth.<name_of_auth>" for example.
+    # And they will be refered from other sections.
+    # "group_vars.openstack.auth.<name_of_auth>" will be refered from parameters "group_vars.openstack.servers.[].auth_ref" for example.
+    auth:
+      # Key "name" is a config name of authentications. It will be used to identify them.
+      # Other under a key "parameters" follows an auth parameter of module openstack.cloud.server.
+      # You can declare auth_url, username, password for example.
+      # For more details, please refer to a document of it.
+      default:
+        parameters:
+          auth_url: http://dev-controller01:5000
+          username: openstack_operator
+          password: secret
+          project_name: default_project
+          user_domain_name: Default
+          project_domain_name: Default
+
     ssh_public_keys:
-      - name: default_key
+      - name: default
         value: "ssh-ed25519 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx tsutomu@arch"
