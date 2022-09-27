@@ -11,7 +11,9 @@
     #       nics:
     #         - net-id: xxxxxxxxxxxxxxxxxxxxxxxxxxxx
     #         - net-name: name_of_network
-    nics: "{{ server.nics }}"
+    #nics: "{{ server.nics }}"
+    nics:
+      - name_name: private
     timeout: "{{ server.timeout }}"
     flavor: "{{ server.flavor }}"
     # A format of a key 'security_groups: "{{ server.security_groups }}"' is equivarent to...
