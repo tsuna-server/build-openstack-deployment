@@ -4,20 +4,16 @@
     state: present
     name: "{{ server.name }}"
     image: "{{ server.image }}"
-    auth:
-      auth_url: "{{ server.auth.auth_url }}"
-      username: "{{ server.auth.username }}"
-      password: "{{ server.auth.password }}"
-      project_name: "{{ server.auth.project_name }}"
-      user_domain_name: "{{ server.auth.user_domain_name }}"
-      project_domain_name: "{{ server.auth.project_domain_name }}"
+    auth: "{{ auth_parameters }}"
     # A format of a key 'nics: "{{ server.nics }}"' is equivarent to...
     #   nics:
     #     - net-name: network_name
     #       nics:
     #         - net-id: xxxxxxxxxxxxxxxxxxxxxxxxxxxx
     #         - net-name: name_of_network
-    nics: "{{ server.nics }}"
+    #nics: "{{ server.nics }}"
+    nics:
+      - name_name: private
     timeout: "{{ server.timeout }}"
     flavor: "{{ server.flavor }}"
     # A format of a key 'security_groups: "{{ server.security_groups }}"' is equivarent to...
