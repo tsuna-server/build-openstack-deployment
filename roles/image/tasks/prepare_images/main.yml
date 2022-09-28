@@ -2,17 +2,35 @@
 # This task create an image.
 # If a file of image was not existed, this instruction will download it.
 # Variables declared are bloew.
-#   image_directory:
-#     A directory path that images will be downloaded.
 #
 #   image:
 #     A dictionary contains informations of image.
-
-# Download a file of an image
+#   image.name:
+#     A name of the image that will be created.
+#   image.cpu_arch:
+#     CPU archtecture of the image.
+#   image.distro:
+#     A distribution of the image.
+#   image.download_url:
+#     A URL to download the image.
 
 - name: Declare iso file image name
   set_fact:
     iso_file_name: "{{ image.name }}.img"
+
+- name: "Declare auth_parameters if \"auth_ref\" is existed at (group_vars.openstack.images.[].name == {{ image.name }})"
+  set_fact:
+    auth_parameters: "{{ group_vars.openstack.auth[\"image.auth_ref\"] }}"
+  when: '"auth_ref" in image'
+
+- name: "Declare auth_parameters if \"auth_ref\" is NOT existed at (group_vars.openstack.images.[].name == {{ image.name }})"
+  set_fact:
+    auth_parameters: "{{ group_vars.openstack.auth[\"default\"] }}"
+  when: '"auth_ref" not in image'
+
+- name: Print a declared auth_parameters
+  ansible.builtin.debug:
+    msg: "auth_parameters => {{ auth_parameters }}"
 
 - name: Declare iso full image path
   set_fact:
@@ -39,14 +57,7 @@
 # Declare an image
 - name: Declare an image
   openstack.cloud.image:
-    auth:
-      # TODO: This instruction can take default auth parameters.
-      auth_url: "{{ group_vars.openstack.defaults.auth.auth_url }}"
-      username: "{{ group_vars.openstack.defaults.auth.username }}"
-      password: "{{ group_vars.openstack.defaults.auth.password }}"
-      project_name: "{{ group_vars.openstack.defaults.auth.project_name }}"
-      user_domain_name: "{{ group_vars.openstack.defaults.auth.user_domain_name }}"
-      project_domain_name: "{{ group_vars.openstack.defaults.auth.project_domain_name }}"
+    auth: "{{ auth_parameters }}"
     name: "{{ image.name }}"
     container_format: bare
     disk_format: qcow2
