@@ -1,7 +1,7 @@
 ---
 - name: Include add_ssh_key.yml
-  include_tasks: add_ssh_key.yml
+  include_tasks: add_ssh_key/main.yml
   loop_control:
     loop_var: ssh_key
-  loop: "{{ group_vars.openstack.ssh_public_keys }}"
+  loop: "{{ group_vars.openstack.ssh_public_keys | dict2items }}"
 

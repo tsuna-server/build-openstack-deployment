@@ -1,4 +1,16 @@
 ---
 
-- name: Add ssh public key
+# FIXME: Parameters of auth should be declared in environment variables to be able to additional codes to declare auth parameters.
+###- name: "Declare auth_parameters for default"
+###  set_fact:
+###    auth_parameters: "{{ group_vars.openstack.ssh_public_keys.default.value }}"
+###
+###- name: Add public key to the OpenStack
+###  openstack.cloud.keypair:
+###    state: present
+###    name: default
 
+
+- name: Deeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeebug
+  ansible.builtin.debug:
+    msg: "ssh_pubic_keys={{ ssh_key }}"
