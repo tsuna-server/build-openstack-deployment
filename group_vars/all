@@ -17,16 +17,10 @@ group_vars:
         # A server will be created containing with ssh public key pair if you declared it.
         ssh_public_key_pair_name: default
         flavor: m1.tiny
-        auth:
-          auth_url: http://dev-controller01:5000
-          username: openstack_operator
-          password: secret
-          project_name: default_project
-          user_domain_name: Default
-          project_domain_name: Default
+        auth_ref: "default"
         timeout: 300
         nics:
-          - net_name: private_net
+          - net-name: private_net
         security_groups:
           - default_security_group
 
@@ -40,14 +34,13 @@ group_vars:
       # You can declare auth_url, username, password for example.
       # For more details, please refer to a document of it.
       default:
-        parameters:
-          auth_url: http://dev-controller01:5000
-          username: openstack_operator
-          password: secret
-          project_name: default_project
-          user_domain_name: Default
-          project_domain_name: Default
+        auth_url: http://dev-controller01:5000
+        username: openstack_operator
+        password: secret
+        project_name: default_project
+        user_domain_name: Default
+        project_domain_name: Default
 
     ssh_public_keys:
-      - name: default
+      default:
         value: "ssh-ed25519 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx tsutomu@arch"
