@@ -5,6 +5,7 @@
   roles:
     - { role: image, tags: ['role_image']}
     - { role: ssh_key, tags: ['role_ssh_key']}
+    - { role: ssh_key, tags: ['role_security_groups']}
     - { role: server, tags: ['role_server']}
   vars_files:
     - "external_vars/ssh_public_keys.yml"
