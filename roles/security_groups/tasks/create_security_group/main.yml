@@ -1,15 +1,20 @@
 ---
 # Variables that will be passed are below.
-#   
+#   security_group: Parameters of security group that will be created.
 
 - name: "Declare description of a security group \"{{ group_vars.openstack.security_groups }}\""
   set_fact:
     description_of_security_group: "{% if 'description' in security_group %}{{ security_group.description }}{% else %}{% endif %}"
 
+# FIXME: Parameters of auth should be declared in environment variables to be able to additional codes to declare auth parameters.
+- name: "Declare auth_parameters for default"
+  set_fact:
+    auth_parameters: "{{ group_vars.openstack.auth.default }}"
+
 - name: "Create security group \"{{ group_vars.openstack.security_groups }}\""
   openstack.cloud.security_group:
-    name: "{{ group_vars.openstack.security_groups }}"
-    cloud: mordred
+    name: "{{ security_group.name }}"
+    auth: "{{ auth_parameters }}"
     state: present
     description: "{{ description_of_security_group }}"
 
