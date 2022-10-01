@@ -11,7 +11,7 @@
   set_fact:
     auth_parameters: "{{ group_vars.openstack.auth.default }}"
 
-- name: "Create security group \"{{ group_vars.openstack.security_groups }}\""
+- name: "Create a security group \"{{ group_vars.openstack.security_groups }}\""
   openstack.cloud.security_group:
     name: "{{ security_group.name }}"
     auth: "{{ auth_parameters }}"
@@ -19,4 +19,8 @@
     description: "{{ description_of_security_group }}"
 
 # TODO: Add group rules
+- name: "Include create_security_group_rule.yml"
+  include_tasks: create_security_group_rule.yml
+    loop_var: security_group_rule
+  loop: "{{ security_group.rules }}"
 
