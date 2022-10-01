@@ -1,0 +1,24 @@
+---
+# Variables that will be passed are below.
+#   security_group_rule: A rule that will be added in the security_group
+
+- name: Declare parameters_of_securigy_group_rule
+  set_fact:
+    parameters_of_security_group_rule: "{{ security_group_rule }}"
+
+- name: Declare a name in parameters_of_security_group_rule
+  set_fact:
+    parameters_of_security_group_rule: "{{ parameters_of_security_group_rule | combine({\"security_group\": security_group.name}) }}"
+
+# FIXME:
+- name: Declare a auth in parameters_of_security_group_rule
+  set_fact:
+    parameters_of_security_group_rule: "{{ parameters_of_security_group_rule | combine({\"auth\": group_vars.openstack.auth.default}) }}"
+
+- name: "Print a security group that will be created"
+  ansible.builtin.debug:
+    msg: "security_group.name -> {{ security_group.name }}, rule -> {{ security_group_rule }}"
+
+#- name: "Create a security group rule"
+#  
+
