@@ -1,5 +1,7 @@
 ---
 # Variables that will be passed are below.
+#   security_group: Parameters of security group that will be created.
+#   project_name: A name of the project that the security group will be created.
 #   security_group_rule: A rule that will be added in the security_group
 
 - name: Declare parameters_of_securigy_group_rule
@@ -15,10 +17,12 @@
   set_fact:
     parameters_of_security_group_rule: "{{ parameters_of_security_group_rule | combine({\"auth\": group_vars.openstack.auth.default}) }}"
 
-- name: "Print a security group that will be created"
+- name: "Print a security group rule that will be created"
   ansible.builtin.debug:
-    msg: "security_group.name -> {{ security_group.name }}, rule -> {{ security_group_rule }}"
+    msg: "security_group.name -> {{ security_group.name }}, project ->, rule -> {{ security_group_rule }}"
 
-#- name: "Create a security group rule"
-#  
+# Creating security group by using openstack.cloud.security_group_rule module.
+# For mor details, please refer "https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html#ansible-collections-openstack-cloud-security-group-rule-module".
+- name: "Create a security group rule"
+  openstack.cloud.security_group_rule: "{{ parameters_of_security_group_rule }}"
 
