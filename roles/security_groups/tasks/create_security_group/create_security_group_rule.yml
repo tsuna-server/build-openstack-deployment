@@ -17,9 +17,13 @@
   set_fact:
     parameters_of_security_group_rule: "{{ parameters_of_security_group_rule | combine({\"auth\": group_vars.openstack.auth.default}) }}"
 
+- name: Declare a project in parameters_of_security_group_rule
+  set_fact:
+    parameters_of_security_group_rule: "{{ parameters_of_security_group_rule | combine({\"project\": project_name}) }}"
+
 - name: "Print a security group rule that will be created"
   ansible.builtin.debug:
-    msg: "security_group.name -> {{ security_group.name }}, project ->, rule -> {{ security_group_rule }}"
+    msg: "security_group.name -> {{ security_group.name }}, project -> {{ project_name }}, rule -> {{ security_group_rule }}"
 
 # Creating security group by using openstack.cloud.security_group_rule module.
 # For mor details, please refer "https://docs.ansible.com/ansible/latest/collections/openstack/cloud/security_group_rule_module.html#ansible-collections-openstack-cloud-security-group-rule-module".
