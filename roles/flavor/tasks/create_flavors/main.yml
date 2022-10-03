@@ -1,0 +1,16 @@
+---
+# Variables that will be passed are below.
+#   flavor: Parameters of flavor
+
+# FIXME: Parameters of auth should be declared in environment variable.
+- name: Declare an auth in parameters of flavor
+  set_fact:
+    parameters_of_flavor: "{{ flavor | combine({\"auth\": group_vars.openstack.auth.default}) }}"
+
+- name: "Declare state for "
+  set_fact:
+    parameters_of_flavor: "{{ parameters_of_flavor | combine({\"state\": \"present\"}) }}"
+
+- name: "Add a flavor (parameter -> {{ parameters_of_flavor }})"
+  openstack.cloud.compute_flavor: "{{ parameters_of_flavor }}"
+
