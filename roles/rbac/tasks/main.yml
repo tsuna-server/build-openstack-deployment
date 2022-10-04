@@ -1,0 +1,7 @@
+---
+- name: Include create_rbac/main.yml
+  include_tasks: create_rbac/main.yml
+  loop_control:
+    loop_var: rbac
+  loop: "{{ group_vars.openstack.rbacs }}"
+
