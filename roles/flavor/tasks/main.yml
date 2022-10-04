@@ -1,0 +1,7 @@
+---
+- name: Include create_flavors/main.yml
+  include_tasks: create_flavors/main.yml
+  loop_control:
+    loop_var: flavor
+  loop: "{{ group_vars.openstack.flavors }}"
+
