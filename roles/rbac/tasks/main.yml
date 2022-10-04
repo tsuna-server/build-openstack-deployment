@@ -4,4 +4,3 @@
   loop_control:
     loop_var: rbac
   loop: "{{ group_vars.openstack.rbacs }}"
-
