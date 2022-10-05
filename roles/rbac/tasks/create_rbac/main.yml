@@ -1,3 +1,12 @@
 ---
+# Variables are below.
+# rbac
 
+- name: "Declare auth_parameters if \"auth_ref\" is existed at (group_vars.openstack.servers.[].name == {{ server.name }})"
+  set_fact:
+    auth_parameters: "{{ group_vars.openstack.auth[server.auth_ref] }}"
+  when: '"auth_ref" in server'
+
+#- name: "Create a new network RBAC policy [project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}]"
+#  neutron_rbac_policy:
 
