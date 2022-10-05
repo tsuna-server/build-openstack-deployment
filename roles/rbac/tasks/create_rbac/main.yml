@@ -7,6 +7,25 @@
     auth_parameters: "{{ group_vars.openstack.auth[server.auth_ref] }}"
   when: '"auth_ref" in server'
 
+# TODO:
+#- name: "Declare target_project_id"
+#  set_fact:
+#    target_project_id: ""
+
+# TODO: Declare rbac_project_id
+# TODO: Declare target_rbac_network_id
+
+- name: Deeeeeeeeeeeeeeeeeeeebug
+  ansible.buildin.debug:
+    "target_project_id={{ rbac_project_id }}, action={{ action }}, object_id={{ target_rbac_network_id }}"
+
 #- name: "Create a new network RBAC policy [project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}]"
 #  neutron_rbac_policy:
+
+- name: "Create a new network RBAC policy [project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}]"
+  neutron_rbac_policy:
+    object_id:                      # network_id
+    object_type: 'network'          # RBAC 
+    target_project_id: "{{ target_project_id }}"              # Project ID that the network belonging in.
+    action: "{{ rbac.action }}"
 
