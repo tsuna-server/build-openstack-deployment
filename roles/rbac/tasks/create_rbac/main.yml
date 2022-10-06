@@ -1,11 +1,11 @@
 ---
 # Variables are below.
-# rbac
+# rbac: RBAC object that contains 'network_name', 'project_name', args that
 
+# TODO: It will be replaced to environment variable.
 - name: "Declare auth_parameters if \"auth_ref\" is existed at (group_vars.openstack.servers.[].name == {{ server.name }})"
   set_fact:
-    auth_parameters: "{{ group_vars.openstack.auth[server.auth_ref] }}"
-  when: '"auth_ref" in server'
+    auth_parameters: "{{ group_vars.openstack.auth['default'] }}"
 
 # TODO:
 #- name: "Declare target_project_id"
@@ -14,18 +14,23 @@
 
 # TODO: Declare rbac_project_id
 # TODO: Declare target_rbac_network_id
+# TODO: Declare action
 
 - name: Deeeeeeeeeeeeeeeeeeeebug
-  ansible.buildin.debug:
-    "target_project_id={{ rbac_project_id }}, action={{ action }}, object_id={{ target_rbac_network_id }}"
+  ansible.builtin.debug:
+    "target_project_id={{ rbac_project_id }}, action={{ rbac.action }}, object_id={{ target_rbac_network_id }}"
+
+- name: Faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaail
+  ansible.builtin.fail:
+    msg: "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
 
 #- name: "Create a new network RBAC policy [project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}]"
 #  neutron_rbac_policy:
 
-- name: "Create a new network RBAC policy [project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}]"
-  neutron_rbac_policy:
-    object_id:                      # network_id
-    object_type: 'network'          # RBAC 
-    target_project_id: "{{ target_project_id }}"              # Project ID that the network belonging in.
-    action: "{{ rbac.action }}"
+#- name: "Create a new network RBAC policy. project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}"
+#  neutron_rbac_policy:
+#    object_id:                      # network_id
+#    object_type: 'network'          # RBAC 
+#    target_project_id: "{{ target_project_id }}"              # Project ID that the network belonging in.
+#    action: "{{ rbac.action }}"
 
