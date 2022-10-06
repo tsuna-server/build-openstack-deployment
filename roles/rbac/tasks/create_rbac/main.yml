@@ -7,10 +7,17 @@
   set_fact:
     auth_parameters: "{{ group_vars.openstack.auth['default'] }}"
 
-# TODO:
-#- name: "Declare target_project_id"
-#  set_fact:
-#    target_project_id: ""
+- name: Declare target_rbac_projects
+  set_fact:
+    target_rbac_projects: []
+
+# Create admin_projects_list from domains and projects belonging in it.
+- name: Declare a variable of admin project list
+  set_fact:
+    admin_projects_list: "[{% for item in rbac_domain.projects if 'admin' in item.name %}{{ item }}{% if not loop.last %},{% endif %}{% endfor %}]"
+
+
+
 
 # TODO: Declare rbac_project_id
 # TODO: Declare target_rbac_network_id
