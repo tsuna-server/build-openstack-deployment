@@ -83,7 +83,7 @@ group_vars:
         disk: 8
 
     rbacs:
-      - type: "network"                 # Type of object that RBAC will be applied. OpenStack supports "address_group", "address_scope", "security_group", "subnetpool", "qos_policy" or "network". But this Ansible only supports "network" so far.
+      - object_type: "network"          # Type of object that RBAC will be applied. OpenStack supports "address_group", "address_scope", "security_group", "subnetpool", "qos_policy" or "network". But this Ansible only supports "network" so far.
         object_id: "private_net"        # Object ID that RBAC will be applied. You should choose network name if you specified "network" as type for example.
         domain: "default"               # Domain name that the target in.
         project: "default_project"      # Name of project that the domain and object_id in.
