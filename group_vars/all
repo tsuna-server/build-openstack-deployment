@@ -56,7 +56,7 @@ group_vars:
     security_groups:
       - name: permit_all
         projects:
-          - admin
+          - default_project
         description: "Permit all packets"
         rules:
           # You can omit the name of the security group that these rules will be added.
@@ -83,11 +83,14 @@ group_vars:
         disk: 8
 
     rbacs:
-      - object_type: "network"          # Type of object that RBAC will be applied. OpenStack supports "address_group", "address_scope", "security_group", "subnetpool", "qos_policy" or "network". But this Ansible only supports "network" so far.
-        object_id: "private_net"        # Object ID that RBAC will be applied. You should choose network name if you specified "network" as type for example.
-        domain: "default"               # Domain name that the target in.
-        project: "default_project"      # Name of project that the domain and object_id in.
-        action: "access_as_shared"      # Name of action. You can choose "access_as_shared" or "access_as_external". You should choose "access_as_shared" if you specified an object (type: "network" and choosen internal network for example) in internal. Or you should choose "access_as_external" for others.
+      # You can specify only parameters "object_type", "object_id", "project_id"
+      # Collisions name of project between some domains are not supported yet.
+      # Then you can not specify name of domain that the project is belonging in.
+      - object_type: "network"                # Type of object that RBAC will be applied. OpenStack supports "address_group", "address_scope", "security_group", "subnetpool", "qos_policy" or "network". But this Ansible only supports "network" so far.
+        object_id: "private_net"              # Object ID that RBAC will be applied. You should choose network name if you specified "network" as type for example.
+        target_project_id: "default_project"  # The project to which access to be allowed or revoked/disallowed.
+        project_id: "default_project"         # Name of project that the object_id is belonging in.
+        action: "access_as_shared"            # Name of action. You can choose "access_as_shared" or "access_as_external". You should choose "access_as_shared" if you specified an object (type: "network" and choosen internal network for example) in internal. Or you should choose "access_as_external" for others.
 
     ssh_public_keys:
       default:
