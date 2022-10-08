@@ -7,37 +7,40 @@
   set_fact:
     auth_parameters: "{{ group_vars.openstack.auth['default'] }}"
 
-- name: Declare target_rbac_projects
+# type of RBAC ---------------------------------------------------------------------------------------------------------------------------------------------------------
+- name: "Declare type of RBAC as default if it was not specified"
   set_fact:
-    target_rbac_projects: []
+    rbac_type: "network"
+  when: "'type' not in rbac"
 
-# Create admin_projects_list from domains and projects belonging in it.
-- name: Declare a variable of admin project list
+- name: "Declare type of RBAC"
   set_fact:
-    admin_projects_list: "[{% for item in rbac_domain.projects if 'admin' in item.name %}{{ item }}{% if not loop.last %},{% endif %}{% endfor %}]"
+    rbac_type: "{{ rbac.type }}"
+  when: "'type' in rbac"
 
+# object_id of RBAC ---------------------------------------------------------------------------------------------------------------------------------------------------------
+- name: "Declare object_id of RBAC"
+  set_fact:
+    rbac_object_id: "{{ rbac.object_id }}"
 
+# domain of RBAC ---------------------------------------------------------------------------------------------------------------------------------------------------------
+- name: "Declare domain of RBAC"
+  set_fact:
+    rbac_domain: "{{ rbac.domain }}"
 
+# target_project_id of RBAC ------------------------------------------------------------------------------------------------------------------------------------------------
+- name: "Declare target_project_id of RBAC"
+  set_fact:
+    rbac_target_project_id: "{{ rbac.target_project_id }}"
 
-# TODO: Declare rbac_project_id
-# TODO: Declare target_rbac_network_id
-# TODO: Declare action
+# action of RBAC ----------------------------------------------------------------------------------------------------------------------------------------------------------
+- name: "Declare action of RBAC as default if it was not specified"
+  set_fact:
+    rbac_action: "access_as_external"
+  when: "'type' not in rbac"
 
-- name: Deeeeeeeeeeeeeeeeeeeebug
-  ansible.builtin.debug:
-    "target_project_id={{ rbac_project_id }}, action={{ rbac.action }}, object_id={{ target_rbac_network_id }}"
+- name: "Declare action of RBAC"
+  set_fact:
+    rbac_action: "{{ rbac.action }}"
 
-- name: Faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaail
-  ansible.builtin.fail:
-    msg: "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-
-#- name: "Create a new network RBAC policy [project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}]"
-#  neutron_rbac_policy:
-
-#- name: "Create a new network RBAC policy. project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}"
-#  neutron_rbac_policy:
-#    object_id:                      # network_id
-#    object_type: 'network'          # RBAC 
-#    target_project_id: "{{ target_project_id }}"              # Project ID that the network belonging in.
-#    action: "{{ rbac.action }}"
-
+# TODO: Create RBAC
