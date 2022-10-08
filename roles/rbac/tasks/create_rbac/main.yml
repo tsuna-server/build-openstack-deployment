@@ -49,6 +49,10 @@
     rbac_action: "{{ rbac.action }}"
   when: "'action' in rbac"
 
+# Convert rbac_object_id to UUID
+- name: "Convert rbac_object_id to UUID if it was needed"
+  ansible.builtin.script: ./convert_rbac_object_to_uuid.sh "{{ rbac_object_type }}" "{{ rbac_object_id }}"
+
 - name: "Create a new network RBAC policy. [object_type={{ rbac_object_type }}, object_id={{ rbac_object_id }}, target_project_id={{ rbac_target_project_id }}, project_id={{ rbac_project_id }}, action={{ rbac_action }}]"
   openstack.cloud.neutron_rbac_policy:
     auth: "{{ auth_parameters }}"
