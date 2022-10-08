@@ -10,12 +10,12 @@
 # type of RBAC ---------------------------------------------------------------------------------------------------------------------------------------------------------
 - name: "Declare type of RBAC as default if it was not specified"
   set_fact:
-    rbac_type: "network"
+    rbac_object_type: "network"
   when: "'type' not in rbac"
 
 - name: "Declare type of RBAC"
   set_fact:
-    rbac_type: "{{ rbac.type }}"
+    rbac_object_type: "{{ rbac.object_type }}"
   when: "'type' in rbac"
 
 # object_id of RBAC ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -33,14 +33,29 @@
   set_fact:
     rbac_target_project_id: "{{ rbac.target_project_id }}"
 
+# project_id of RBAC ------------------------------------------------------------------------------------------------------------------------------------------------
+- name: "Declare project_id of RBAC"
+  set_fact:
+    rbac_project_id: "{{ rbac.project_id }}"
+
 # action of RBAC ----------------------------------------------------------------------------------------------------------------------------------------------------------
 - name: "Declare action of RBAC as default if it was not specified"
   set_fact:
     rbac_action: "access_as_external"
-  when: "'type' not in rbac"
+  when: "'action' not in rbac"
 
 - name: "Declare action of RBAC"
   set_fact:
     rbac_action: "{{ rbac.action }}"
+  when: "'action' in rbac"
 
 # TODO: Create RBAC
+
+- name: "Create a new network RBAC policy. project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}"
+  neutron_rbac_policy:
+    object_type: "{{ rbac_object_type }}"
+    object_id: "{{ rbac_object_id }}"
+    target_project_id: "{{ target_project_id }}"
+    project_id: "{{ project_id }}"
+    action: "{{ rbac_action }}"
+
