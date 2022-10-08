@@ -49,13 +49,13 @@
     rbac_action: "{{ rbac.action }}"
   when: "'action' in rbac"
 
-# TODO: Create RBAC
-
-- name: "Create a new network RBAC policy. project_name={{ rbac.project_name }}, target_project_id={{ rbac.target_project_id }}"
-  neutron_rbac_policy:
+- name: "Create a new network RBAC policy. [object_type={{ rbac_object_type }}, object_id={{ rbac_object_id }}, target_project_id={{ rbac_target_project_id }}, project_id={{ rbac_project_id }}, action={{ rbac_action }}]"
+  openstack.cloud.neutron_rbac_policy:
+    auth: "{{ auth_parameters }}"
     object_type: "{{ rbac_object_type }}"
     object_id: "{{ rbac_object_id }}"
-    target_project_id: "{{ target_project_id }}"
-    project_id: "{{ project_id }}"
+    state: present
+    target_project_id: "{{ rbac_target_project_id }}"
+    project_id: "{{ rbac_project_id }}"
     action: "{{ rbac_action }}"
 
