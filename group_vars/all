@@ -16,13 +16,25 @@ group_vars:
         # A variable 'ssh_public_key_pair_name' is optional.
         # A server will be created containing with ssh public key pair if you declared it.
         ssh_public_key_pair_name: default
+
         flavor: m1.tiny
         auth_ref: "default"
         timeout: 300
         nics:
           - net-name: private_net
         security_groups:
-          - default_security_group
+          - permit_all
+
+      - name: vm2
+        image: ubuntu-22.04
+        ssh_public_key_pair_name: default
+        flavor: m1.medium
+        auth_ref: "default"
+        timeout: 300
+        nics:
+          - net-name: private_net
+        security_groups:
+          - permit_all
 
     # Parameters below are constructed as dictionary.
     # "group_vars.openstack.auth.<name_of_auth>" for example.
@@ -40,6 +52,45 @@ group_vars:
         project_name: default_project
         user_domain_name: Default
         project_domain_name: Default
+
+    security_groups:
+      - name: permit_all
+        projects:
+          - default_project
+        description: "Permit all packets"
+        rules:
+          # You can omit the name of the security group that these rules will be added.
+          #
+          # Permit all tcp rules.
+          - protocol: tcp
+            port_range_min: 1
+            port_range_max: 65535
+            remote_ip_prefix: 0.0.0.0/0
+          # Permit ICMP
+          - protocol: icmp
+            port_range_min: -1
+            port_range_max: -1
+            remote_ip_prefix: 0.0.0.0/0
+
+    flavors:
+      - name: "m1.tiny"
+        ram: 512
+        vcpus: 1
+        disk: 2
+      - name: "m1.medium"
+        ram: 2048
+        vcpus: 2
+        disk: 8
+
+    rbacs:
+      # You can specify only parameters "object_type", "object_id", "project_id"
+      # Collisions name of project between some domains are not supported yet.
+      # Then you can not specify name of domain that the project is belonging in.
+      - object_type: "network"                # Type of object that RBAC will be applied. OpenStack supports "address_group", "address_scope", "security_group", "subnetpool", "qos_policy" or "network". But this Ansible only supports "network" so far.
+        object_id: "private_net"              # Object ID that RBAC will be applied. You should choose network name if you specified "network" as type for example.
+        target_project_id: "default_project"  # The project to which access to be allowed or revoked/disallowed.
+        project_id: "default_project"         # Name of project that the object_id is belonging in.
+        action: "access_as_shared"            # Name of action. You can choose "access_as_shared" or "access_as_external". You should choose "access_as_shared" if you specified an object (type: "network" and choosen internal network for example) in internal. Or you should choose "access_as_external" for others.
 
     ssh_public_keys:
       default:
