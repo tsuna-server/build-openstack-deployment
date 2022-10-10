@@ -2,11 +2,6 @@
 # Variables are below.
 # rbac: RBAC object that contains 'network_name', 'project_name', args that
 
-# TODO: It will be replaced to environment variable.
-- name: "Declare auth_parameters if \"auth_ref\" is existed at (group_vars.openstack.servers.[].name == {{ server.name }})"
-  set_fact:
-    auth_parameters: "{{ group_vars.openstack.auth['default'] }}"
-
 # type of RBAC ---------------------------------------------------------------------------------------------------------------------------------------------------------
 - name: "Declare type of RBAC as default if it was not specified"
   set_fact:
@@ -59,9 +54,9 @@
   set_fact:
     rbac_object_uuid: "{{ result_convert_rbac_object_to_uuid.stdout_lines[-1] }}"
 
+# Create RBAC
 - name: "Create a new network RBAC policy. [object_type={{ rbac_object_type }}, object_uuid={{ rbac_object_uuid }}, target_project_id={{ rbac_target_project_id }}, project_id={{ rbac_project_id }}, action={{ rbac_action }}]"
   openstack.cloud.neutron_rbac_policy:
-    auth: "{{ auth_parameters }}"
     object_type: "{{ rbac_object_type }}"
     object_id: "{{ rbac_object_uuid }}"
     state: present

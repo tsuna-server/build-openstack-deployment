@@ -8,12 +8,6 @@ main() {
 
     local object_uuid
 
-    # FIXME: This instruction should be omitted by declaring auth parameters in environment variables.
-    . ./admin-openrc || {
-        echo "ERROR: Failed to load auth information [source ${HOME}/admin-openrc]"
-        return 1
-    }
-
     if [[ "$object_id" =~ ^[0-9a-zA-Z]{8}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{12}$ ]]; then
         echo "$object_id"
         return 0
