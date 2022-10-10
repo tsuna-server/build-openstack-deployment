@@ -1,0 +1,11 @@
+---
+# A variable that will passed here are below.
+#   router: A router that will be created.
+
+- name: "Declare parameter of router that will be created"
+  set_fact:
+    parameters_of_router: "{{ router | combine({\"state\": \"present\"}) }}"
+
+- name: "Create a router"
+  openstack.cloud.router: "{{ parameters_of_router }}"
+
