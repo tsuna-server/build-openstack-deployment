@@ -8,20 +8,9 @@
 #     An auth URL to create the server.
 
 # Declare an auth parameters
-
-- name: "Declare auth_parameters if \"auth_ref\" is existed at (group_vars.openstack.servers.[].name == {{ server.name }})"
-  set_fact:
-    auth_parameters: "{{ group_vars.openstack.auth[server.auth_ref] }}"
-  when: '"auth_ref" in server'
-
-- name: "Declare auth_parameters if \"auth_ref\" is NOT existed at (group_vars.openstack.servers.[].name == {{ server.name }})"
-  set_fact:
-    auth_parameters: "{{ group_vars.openstack.auth[\"default\"] }}"
-  when: '"auth_ref" not in server'
-
 - name: Print a server that will be created
   ansible.builtin.debug:
-    msg: "server.name={{ server.name }}, server.image={{ server.image }}, {% if 'ssh_public_key_pair_name' in server %}server.key_name={{ server.ssh_public_key_pair_name }}{% endif %}, server.nics={{ server.nics }} server.auth.auth_url={{ auth_parameters.auth_url }}, server.auth.username={{ auth_parameters.username }}, server.auth.project_name={{ auth_parameters.project_name }}, server.auth.user_domain_name={{ auth_parameters.user_domain_name }}, server.auth.project_domain_name={{ auth_parameters.project_domain_name }}"
+    msg: "server.name={{ server.name }}, server.image={{ server.image }}, {% if 'ssh_public_key_pair_name' in server %}server.key_name={{ server.ssh_public_key_pair_name }}{% endif %}, server.nics={{ server.nics }} server.auth.auth_url={{ auth_parameters.auth_url }}, server.auth.username={{ auth_parameters.username }}, server.auth.project_name={{ auth_parameters.project_name }}, server.auth.user_domain_name={{ auth_parameters.user_domain_name }}"
 
   # FIXME: Creating a server like below is not a flexible way.
 - name: Include do_create_server.yml if you did not declare ssh_public_key_pair_name

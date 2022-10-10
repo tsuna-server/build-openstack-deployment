@@ -1,12 +1,6 @@
 ---
 # Variables that will be passed are below.
 #   security_group: Parameters of security group that will be created.
-
-# FIXME: Parameters of auth should be declared in environment variables to be able to additional codes to declare auth parameters.
-- name: "Declare auth_parameters for default"
-  set_fact:
-    auth_parameters: "{{ group_vars.openstack.auth.default }}"
-
 - name: "Include create_security_group.yml"
   include_tasks: create_security_group.yml
   loop_control:

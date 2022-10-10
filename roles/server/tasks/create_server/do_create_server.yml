@@ -4,7 +4,6 @@
     state: present
     name: "{{ server.name }}"
     image: "{{ server.image }}"
-    auth: "{{ auth_parameters }}"
     # A format of a key 'nics: "{{ server.nics }}"' is equivarent to...
     #   nics:
     #     - net-name: network_name

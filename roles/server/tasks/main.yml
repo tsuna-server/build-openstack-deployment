@@ -6,7 +6,3 @@
   loop_control:
     loop_var: server
   loop: "{{ group_vars.openstack.servers }}"
-
-#- name: Include list_servers.yml
-#  include_tasks: list_servers/main.yml
-
