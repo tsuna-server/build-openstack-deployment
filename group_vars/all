@@ -38,6 +38,7 @@ group_vars:
 
     # Auth environment variables that will be used command for OpenStack
     auth:
+      # Parameters of auth in environment variables
       env:
         OS_USERNAME: openstack_operator
         OS_PASSWORD: secret
