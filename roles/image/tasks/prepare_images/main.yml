@@ -18,20 +18,6 @@
   set_fact:
     iso_file_name: "{{ image.name }}.img"
 
-- name: "Declare auth_parameters if \"auth_ref\" is existed at (group_vars.openstack.images.[].name == {{ image.name }})"
-  set_fact:
-    auth_parameters: "{{ group_vars.openstack.auth[\"image.auth_ref\"] }}"
-  when: '"auth_ref" in image'
-
-- name: "Declare auth_parameters if \"auth_ref\" is NOT existed at (group_vars.openstack.images.[].name == {{ image.name }})"
-  set_fact:
-    auth_parameters: "{{ group_vars.openstack.auth[\"default\"] }}"
-  when: '"auth_ref" not in image'
-
-- name: Print a declared auth_parameters
-  ansible.builtin.debug:
-    msg: "auth_parameters => {{ auth_parameters }}"
-
 - name: Declare iso full image path
   set_fact:
     full_iso_file_path: "{{ [image_directory, iso_file_name] | path_join }}"
@@ -57,7 +43,6 @@
 # Declare an image
 - name: Declare an image
   openstack.cloud.image:
-    auth: "{{ auth_parameters }}"
     name: "{{ image.name }}"
     container_format: bare
     disk_format: qcow2
