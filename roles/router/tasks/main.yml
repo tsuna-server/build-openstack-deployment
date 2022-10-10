@@ -1,0 +1,7 @@
+---
+- name: "Include create_router/main.yml"
+  include_tasks: create_router/main.yml
+  loop_control:
+    loop_var: router
+  loop: "{{ group_vars.openstack.routers }}"
+
