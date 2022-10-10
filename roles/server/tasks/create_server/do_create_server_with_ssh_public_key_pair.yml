@@ -5,7 +5,6 @@
     name: "{{ server.name }}"
     image: "{{ server.image }}"
     key_name: "{{ server.ssh_public_key_pair_name }}"
-    auth: "{{ auth_parameters }}"
     # A format of a key 'nics: "{{ server.nics }}"' is equivarent to...
     #   nics:
     #     - net-name: network_name

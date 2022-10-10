@@ -36,22 +36,17 @@ group_vars:
         security_groups:
           - permit_all
 
-    # Parameters below are constructed as dictionary.
-    # "group_vars.openstack.auth.<name_of_auth>" for example.
-    # And they will be refered from other sections.
-    # "group_vars.openstack.auth.<name_of_auth>" will be refered from parameters "group_vars.openstack.servers.[].auth_ref" for example.
+    # Auth environment variables that will be used command for OpenStack
     auth:
-      # Key "name" is a config name of authentications. It will be used to identify them.
-      # Other under a key "parameters" follows an auth parameter of module openstack.cloud.server.
-      # You can declare auth_url, username, password for example.
-      # For more details, please refer to a document of it.
-      default:
-        auth_url: http://dev-controller01:5000
-        username: openstack_operator
-        password: secret
-        project_name: default_project
-        user_domain_name: Default
-        project_domain_name: Default
+      # Parameters of auth in environment variables
+      env:
+        OS_USERNAME: openstack_operator
+        OS_PASSWORD: secret
+        OS_PROJECT_NAME: default_project
+        OS_USER_DOMAIN_NAME: Default
+        OS_PROJECT_DOMAIN_NAME: Default
+        OS_AUTH_URL: "http://dev-controller01:5000"
+        OS_IDENTITY_API_VERSION: 3
 
     security_groups:
       - name: permit_all
