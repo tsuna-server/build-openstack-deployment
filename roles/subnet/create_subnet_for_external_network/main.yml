@@ -1,2 +1,9 @@
 ---
+- name: "Debug in create_subnet_for_external_network"
+  ansible.builtin.debug:
+    msg: "This is a task in subnet/create_subnet_for_external_network/main.yml"
+
+#- name: "Declare args of creating subnet for external network"
+#  set_fact:
+#    args_creating_subnet: 
 
