@@ -1,9 +1,11 @@
 ---
 - name: Create a list of network that specified as external
   set_fact:
-    external_network_list: "[{% for item in group_vars.openstack.examples.networks if 'external' in item and item.external == True %}'{{ item.name }}'{% if not loop.last %},{% endif %}{% endfor %}]"
+    external_network_list: "[{% for item in group_vars.openstack.networks if 'external' in item and item.external == True %}'{{ item.name }}'{% if not loop.last %},{% endif %}{% endfor %}]"
 
-- name: 
+- name: Print external networks
+  ansible.builtin.debug:
+    msg: "external_network_list={{ external_network_list }}"
 
 - name: Include create_subnet.yml
   include_tasks: create_subnet.yml
