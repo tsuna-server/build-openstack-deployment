@@ -1,0 +1,13 @@
+---
+- name: Create a list of network that specified as external
+  set_fact:
+    external_network_list: "[{% for item in group_vars.openstack.examples.networks if 'external' in item and item.external == True %}'{{ item.name }}'{% if not loop.last %},{% endif %}{% endfor %}]"
+
+- name: 
+
+- name: Include create_subnet.yml
+  include_tasks: create_subnet.yml
+  loop_control:
+    loop_var: subnet
+  loop: "{{ group_vars.openstack.subnets }}"
+

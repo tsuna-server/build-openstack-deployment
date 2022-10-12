@@ -1,6 +1,0 @@
----
-- name: Include create_subnet.yml
-  loop_control:
-    loop_vars: subnet
-  loop: "{{ group_vars.openstack.subnets }}"
-
