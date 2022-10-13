@@ -1,5 +1,6 @@
 ---
 # Parameters that will be passed are below.
+#   external_network_list: Name of networks as external.
 #   subnet: A subnet that will be added in the network.
 
 - name: Include create_subnet_for_external_network/main.yml

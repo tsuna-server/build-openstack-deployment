@@ -1,5 +1,5 @@
 ---
 - name: "Debug in create_subnet_for_internal_network"
   ansible.builtin.debug:
-    msg: "This is a task in subnet/create_subnet_for_internal_network/main.yml"
+    msg: "This is a task in subnet/create_subnet_for_internal_network/main.yml. [subnet={{ subnet }}, external_network_list={{ external_network_list }}]"
 
