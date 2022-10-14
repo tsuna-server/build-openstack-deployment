@@ -5,9 +5,9 @@
 
 - name: Include create_subnet_for_external_network/main.yml
   include_tasks: create_subnet_for_external_network/main.yml
-  when: "'external' in subnet and subnet.external == True"
+  when: "subnet.network_name in external_network_list"
 
 - name: Include create_subnet_for_internal_network/main.yml
   include_tasks: create_subnet_for_internal_network/main.yml
-  when: "'external' not in subnet or subnet.external != True"
+  when: "subnet.network_name not in external_network_list"
 
