@@ -1,0 +1,19 @@
+---
+# Parameters that will be passed are bloew.
+#   network: A network that will be added in the network
+
+#- name: Determine MTU of the network
+#  set_fact:
+#    mtu: "{% if 'mtu_size' in network %}{{ network.mtu }}{% else %}1450{% endif %}"
+
+- name: "Print a network that will be created"
+  ansible.builtin.debug:
+    msg: "This is a task in subnet. [network={{ network }}]"
+
+- name: "Declare parameters_of_network to create a network"
+  set_fact:
+    parameters_of_network: "{{ network | combine({\"state\": \"present\"}) }}"
+
+- name: Create a network
+  openstack.cloud.network: "{{ parameters_of_network }}"
+

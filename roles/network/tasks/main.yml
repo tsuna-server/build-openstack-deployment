@@ -1,0 +1,6 @@
+---
+- name: Include create_subnet.yml
+  include_tasks: create_network.yml
+  loop_control:
+    loop_var: network
+  loop: "{{ group_vars.openstack.networks }}"
