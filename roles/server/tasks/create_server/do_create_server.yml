@@ -1,5 +1,5 @@
 ---
-- name: Create a new instance with
+- name: "Create a new instance [name={{ server.name }}, image={{ server.image }}, flavor={{ server.flavor }}, security_groups={{ server.security_groups }}]"
   openstack.cloud.server:
     state: present
     name: "{{ server.name }}"
