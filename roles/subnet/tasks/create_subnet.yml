@@ -3,11 +3,14 @@
 #   external_network_list: Name of networks as external.
 #   subnet: A subnet that will be added in the network.
 
-- name: Include create_subnet_for_external_network/main.yml
-  include_tasks: create_subnet_for_external_network/main.yml
-  when: "subnet.network_name in external_network_list"
+- name: "Print a subnet that will be created"
+  ansible.builtin.debug:
+    msg: "This is a task in subnet/create_subnet_for_external_network/main.yml. [subnet={{ subnet }}, external_network_list={{ external_network_list }}]"
 
-- name: Include create_subnet_for_internal_network/main.yml
-  include_tasks: create_subnet_for_internal_network/main.yml
-  when: "subnet.network_name not in external_network_list"
+- name: "Declare parameters_of_subnet to create a subnet"
+  set_fact:
+    parameters_of_subnet: "{{ subnet | combine({\"state\": \"present\"}) }}"
+
+- name: Create subnet for external network
+  openstack.cloud.subnet: "{{ parameters_of_subnet }}"
 
