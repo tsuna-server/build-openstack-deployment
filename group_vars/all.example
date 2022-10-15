@@ -10,6 +10,79 @@ group_vars:
         download_url: "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
         cpu_arch: "x86_64"
         distro: "ubuntu"
+
+    networks:
+      - name: public
+        #mtu: 1500
+
+        # A difference between external network or not is that the options of openstack are different.
+        # ex)
+        #   * `openstack subnet create` for an internal network
+        #     openstack subnet create --network ${subnet.network} --allocation-pool start=${subnet_pool_start},end=${subnet_pool_end} --subnet-range ${subnet_range} --dns-nameserver ${dns_name01} ... ${subnet_name}
+        #   * `openstack subnet create` for an external network
+        #     openstack subnet create --network ${subnet.network} --allocation-pool start=${subnet_pool_start},end=${subnet_pool_end} --subnet-range ${subnet_range} --dns-nameserver ${dns_name01} ... ${subnet_name}
+        external: True
+        #
+        # "provider.physical.network" and "provider.network.type" will be passed as a value of option
+        # "--provider-physical-network" and "--provider-network-type" of a command "openstack network create".
+        # These options will connect virtual networks to the physical interface (ex: enp1s0) by refering
+        # the configurations in the file "ml2_conf.ini" and "linuxbridge_agent.ini".
+        #
+        #   * /etc/neutron/plugins/ml2/ml2_conf.ini
+        #   [ml2_type_flat]
+        #   flat_networks = provider
+        # 
+        #   * /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+        #   [linux_bridge]
+        #   physical_interface_mappings = provider:br0
+        #
+        # "provider.physical.network" is an optional parameter(default: "provider").
+        # "provider.network.type" is an optional parameter(default: "flat").
+        #
+        provider:
+          physical:
+            network: provider
+          network:
+            type: flat
+      - name: private_net
+        # The size of MTU should be set less than or equals 1450(VXLAN) on physical environment. If you will build an OpenStack environment
+        # on KVM instances or any virtual instances that is belonging VXLAN segment, you should specify less than 1450(1400 for example) because packets
+        # will be capcelated 2 times on your virtual environment and OpenStack.
+        # If you want to use Geneve instead, you should specify MTU less than or equals 1442 on physical environment.
+        # The situation is similer to VXLAN when you will build an OpenStack with Geneve on any environment variable.
+        # Summaries:
+        # * 1450 (VLAN on physical OpenStack environment)
+        # * 1400 (VLAN on another virtual network(ex. LVM) OpenStack environment)
+        # * 1442 (Geneve on physical OpenStack environment)
+        # * 1400 (Geneve on another virtual network(ex. LVM) OpenStack environment)
+        mtu: 1442
+        provider:
+          network:
+            # Type should be specified as 'geneve' so far in private network if you chose network driver 'OVN'.
+            # Type will be ignored in private network if you chose network driver 'Linux Bridge'.
+            type: geneve
+            # segment: VLAN ID for VLAN networks or Tunnel ID for GENEVE networks.
+            #          If this network is private('external: False' or abbribiated), provider_segment is required.
+            segment: 101
+
+    subnets:
+      # Parameters below are follows parameters documented in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html#ansible-collections-openstack-cloud-subnet-module
+      - name: public_subnet
+        network_name: "public"
+        cidr: 172.31.0.0/16
+        allocation_pool_start: "172.31.230.2"
+        allocation_pool_end: "172.31.230.254"
+        enable_dhcp: False
+      - name: private_subnet
+        network_name: "private_net"
+        cidr: 192.168.255.0/24
+        allocation_pool_start: "192.168.255.2"
+        allocation_pool_end: "192.168.255.254"
+        dns_nameservers:
+          - 172.31.0.1
+          - 8.8.8.8
+          - 8.8.4.4
+
     servers:
       - name: vm1
         image: cirros-0.5.2
