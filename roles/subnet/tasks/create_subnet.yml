@@ -5,7 +5,7 @@
 
 - name: "Print a subnet that will be created"
   ansible.builtin.debug:
-    msg: "This is a task in subnet/create_subnet_for_external_network/main.yml. [subnet={{ subnet }}, external_network_list={{ external_network_list }}]"
+    msg: "This is a task to create a subnet. [subnet={{ subnet }}, external_network_list={{ external_network_list }}]"
 
 - name: "Declare parameters_of_subnet to create a subnet"
   set_fact:
