@@ -4,6 +4,8 @@
   become: yes
   roles:
     - { role: image, tags: ['role_image']}
+    - { role: network, tags: ['role_network']}
+    - { role: subnet, tags: ['role_subnet']}
     - { role: router, tags: ['role_router']}
     - { role: rbac, tags: ['role_rbac']}
     - { role: flavor, tags: ['role_flavor']}
