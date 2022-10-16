@@ -22,5 +22,3 @@
     OS_AUTH_URL: "{{ group_vars.openstack.auth.env.OS_AUTH_URL }}"
     OS_IDENTITY_API_VERSION: "{{ group_vars.openstack.auth.env.OS_IDENTITY_API_VERSION }}"
 
-  vars_files:
-    - "external_vars/ssh_public_keys.yml"
