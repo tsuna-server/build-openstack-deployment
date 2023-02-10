@@ -1,0 +1,11 @@
+---
+# Variables
+#   cinder_volume: A volume object that will be created.
+#
+# Following parameters below is following the parameters of openstack.cloud.volume volume.
+# See https://docs.ansible.com/ansible/latest/collections/openstack/cloud/volume_module.html
+#
+#   cinder_volume.display_name: A name of cinder volume
+
+- name: "Create a cinder volume {{ cinder_volume.display_name }}"
+  openstack.cloud.volume: "{{ cinder_volume }}"

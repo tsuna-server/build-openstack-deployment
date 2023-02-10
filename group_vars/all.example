@@ -96,6 +96,12 @@ group_vars:
           - net-name: private_net
         security_groups:
           - permit_all
+        cinder:
+          # This is volumes of attaching in the VM.
+          # Volumes in this section must be already existed or you have to declare them in the section group_vars.openstack.cinders.volumes[].
+          attachments:
+            volumes:
+              - name: cinder_volume01
 
       - name: vm2
         image: ubuntu-22.04
@@ -106,6 +112,12 @@ group_vars:
           - net-name: private_net
         security_groups:
           - permit_all
+
+    cinders:
+      volumes:
+        - display_name: volume01
+          size: 1               # Size of volume in GB.
+          state: present
 
     # Auth environment variables that will be used command for OpenStack
     auth:
