@@ -27,7 +27,7 @@
     path: "{{ full_iso_file_path }}"
   register: flag_file
 
-- name: Download base image if it has not existed
+- name: "Download base image to {{ full_iso_file_path }} if it has not existed"
   get_url:
     url: "{{ image.download_url }}"
     dest: "{{ full_iso_file_path }}"
