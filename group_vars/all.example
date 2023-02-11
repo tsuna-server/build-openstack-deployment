@@ -73,7 +73,7 @@ group_vars:
             segment: 101
 
     subnets:
-      # Parameters below are follows parameters documented in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html#ansible-collections-openstack-cloud-subnet-module
+      # Parameters below are follows in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html
       - name: public_subnet
         network_name: "public"
         cidr: 172.31.0.0/16
@@ -90,41 +90,33 @@ group_vars:
           - 8.8.8.8
           - 8.8.4.4
 
-    servers:
+    volume:
+      # Parameters below are follows in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/volume_module.html
+      - name: vm2_vdb
+        size: 1               # Size of volume in GB.
+        state: present
+
+    server:
+      # Parameters below are follows in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/server_module.html
       - name: vm1
         image: cirros-0.5.2
-        # A variable 'ssh_public_key_pair_name' is optional.
-        # A server will be created containing with ssh public key pair if you declared it.
-        ssh_public_key_pair_name: default
-
+        key_name: default
         flavor: m1.tiny
         timeout: 300
         nics:
           - net-name: private_net
         security_groups:
           - permit_all
-        cinder:
-          # This is volumes of attaching in the VM.
-          # Volumes in this section must be already existed or you have to declare them in the section group_vars.openstack.cinders.volumes[].
-          attachments:
-            volumes:
-              - name: cinder_volume01
 
       - name: vm2
         image: ubuntu-22.04
-        ssh_public_key_pair_name: default
+        key_name: default
         flavor: m1.medium
         timeout: 300
         nics:
           - net-name: private_net
         security_groups:
           - permit_all
-
-    cinders:
-      volumes:
-        - display_name: volume01
-          size: 1               # Size of volume in GB.
-          state: present
 
     # Auth environment variables that will be used command for OpenStack
     auth:
