@@ -13,7 +13,7 @@
     #         - net-name: name_of_network
     #nics: "{{ server.nics }}"
     nics:
-      - net-name: private
+      - net-name: private_net
     timeout: "{{ server.timeout }}"
     flavor: "{{ server.flavor }}"
     # A format of a key 'security_groups: "{{ server.security_groups }}"' is equivarent to...
