@@ -12,15 +12,24 @@ group_vars:
         distro: "ubuntu"
 
     networks:
+      # Parameters in group_vars.openstack.networks[] follows openstack.cloud.network.
+      # Please refer a document for details.
+      # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html#ansible-collections-openstack-cloud-network-module
       - name: public
         #mtu: 1500
 
-        # A difference between external network or not is that the options of openstack are different.
+        # Options are different between external and provider network.
         # ex)
         #   * `openstack subnet create` for an internal network
-        #     openstack subnet create --network ${subnet.network} --allocation-pool start=${subnet_pool_start},end=${subnet_pool_end} --subnet-range ${subnet_range} --dns-nameserver ${dns_name01} ... ${subnet_name}
+        #     openstack subnet create --network ${subnet.network} \
+        #         --allocation-pool start=${subnet_pool_start},end=${subnet_pool_end} \
+        #         --subnet-range ${subnet_range} --dns-nameserver ${dns_name01} ... ${subnet_name}
         #   * `openstack subnet create` for an external network
-        #     openstack subnet create --network ${subnet.network} --allocation-pool start=${subnet_pool_start},end=${subnet_pool_end} --subnet-range ${subnet_range} --dns-nameserver ${dns_name01} ... ${subnet_name}
+        #     openstack subnet create --network ${subnet.network} \
+        #         --allocation-pool start=${subnet_pool_start},end=${subnet_pool_end} \
+        #         --subnet-range ${subnet_range} --dns-nameserver ${dns_name01} ... ${subnet_name}
+        # External network is a network for communicating external network eg the internet.
+        # Value for default is "external: False".
         external: True
         #
         # "provider.physical.network" and "provider.network.type" will be passed as a value of option
@@ -36,14 +45,12 @@ group_vars:
         #   [linux_bridge]
         #   physical_interface_mappings = provider:br0
         #
-        # "provider.physical.network" is an optional parameter(default: "provider").
-        # "provider.network.type" is an optional parameter(default: "flat").
-        #
         provider:
           physical:
             network: provider
           network:
             type: flat
+
       - name: private_net
         # The size of MTU should be set less than or equals 1450(VXLAN) on physical environment. If you will build an OpenStack environment
         # on KVM instances or any virtual instances that is belonging VXLAN segment, you should specify less than 1450(1400 for example) because packets
@@ -134,7 +141,7 @@ group_vars:
     security_groups:
       - name: permit_all
         projects:
-          - default_project
+          - admin
         description: "Permit all packets"
         rules:
           # You can omit the name of the security group that these rules will be added.
@@ -170,12 +177,12 @@ group_vars:
         disk: 8
 
     rbacs:
-      - object_type: "network"                # Type of object that RBAC will be applied. OpenStack supports "address_group", "address_scope", "security_group", "subnetpool", "qos_policy" or "network". But this Ansible only supports "network" so far.
-        object_id: "private_net"              # Object ID that RBAC will be applied. You should choose network name if you specified "network" as type for example.
-        domain: "default"                     # Domain name that the target in.
-        project_id: "default_project"         # Name of project that the domain and object_id in.
-        target_project_id: "default_project"  # The project to which access to be allowed or revoked/disallowed.
-        action: "access_as_shared"            # Name of action. You can choose "access_as_shared" or "access_as_external". You should choose "access_as_shared" if you specified an object (type: "network" and choosen internal network for example) in internal. Or you should choose "access_as_external" for others.
+      - object_type: "network"      # Type of object that RBAC will be applied. OpenStack supports "address_group", "address_scope", "security_group", "subnetpool", "qos_policy" or "network". But this Ansible only supports "network" so far.
+        object_id: "private_net"    # Object ID that RBAC will be applied. You should choose network name if you specified "network" as type for example.
+        domain: "default"           # Domain name that the target in.
+        project_id: "admin"         # Name of project that the domain and object_id in.
+        target_project_id: "admin"  # The project to which access to be allowed or revoked/disallowed.
+        action: "access_as_shared"  # Name of action. You can choose "access_as_shared" or "access_as_external". You should choose "access_as_shared" if you specified an object (type: "network" and choosen internal network for example) in internal. Or you should choose "access_as_external" for others.
 
     ssh_public_keys:
       default:
