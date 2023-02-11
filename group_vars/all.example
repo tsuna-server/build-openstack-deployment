@@ -12,9 +12,7 @@ group_vars:
         distro: "ubuntu"
 
     networks:
-      # Parameters in group_vars.openstack.networks[] follows openstack.cloud.network.
-      # Please refer a document for details.
-      # https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html#ansible-collections-openstack-cloud-network-module
+      # Parameters below are follows in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/network_module.html
       - name: public
         #mtu: 1500
 
@@ -45,11 +43,8 @@ group_vars:
         #   [linux_bridge]
         #   physical_interface_mappings = provider:br0
         #
-        provider:
-          physical:
-            network: provider
-          network:
-            type: flat
+        provider_network_type: flat
+        provider_physical_network: provider
 
       - name: private_net
         # The size of MTU should be set less than or equals 1450(VXLAN) on physical environment. If you will build an OpenStack environment
@@ -63,14 +58,12 @@ group_vars:
         # * 1442 (Geneve on physical OpenStack environment)
         # * 1400 (Geneve on another virtual network(ex. LVM) OpenStack environment)
         mtu: 1442
-        provider:
-          network:
-            # Type should be specified as 'geneve' so far in private network if you chose network driver 'OVN'.
-            # Type will be ignored in private network if you chose network driver 'Linux Bridge'.
-            type: geneve
-            # segment: VLAN ID for VLAN networks or Tunnel ID for GENEVE networks.
-            #          If this network is private('external: False' or abbribiated), provider_segment is required.
-            segment: 101
+        # Type should be specified as 'geneve' so far in private network if you chose network driver 'OVN'.
+        # Type will be ignored in private network if you chose network driver 'Linux Bridge'.
+        provider_network_type: geneve
+        # segment: VLAN ID for VLAN networks or Tunnel ID for GENEVE networks.
+        #          If this network is private('external: False' or abbribiated), provider_segment is required.
+        provider_segmentation_id: 101
 
     subnets:
       # Parameters below are follows in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/subnet_module.html
