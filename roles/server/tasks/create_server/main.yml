@@ -8,14 +8,14 @@
 # Declare an auth parameters
 - name: Print a server that will be created
   ansible.builtin.debug:
-    msg: "server.name={{ server.name }}, server.image={{ server.image }}, {% if 'ssh_public_key_pair_name' in server %}server.key_name={{ server.ssh_public_key_pair_name }}{% endif %}, server.nics={{ server.nics }}"
+    msg: "server.name={{ server.name }}, server.image={{ server.image }}, {% if 'key_name' in server %}server.key_name={{ server.key_name }}{% endif %}, server.nics={{ server.nics }}"
 
   # FIXME: Creating a server like below is not a flexible way.
-- name: Include do_create_server.yml if you did not declare ssh_public_key_pair_name
+- name: Include do_create_server.yml if you did not declare key_name(key name of ssh)
   include_tasks: do_create_server.yml
-  when: "'ssh_public_key_pair_name' not in server"
+  when: "'key_name' not in server"
 
-- name: Include do_create_server_with_ssh_public_key_pair.yml if you declared ssh_public_key_pair_name
+- name: Include do_create_server_with_ssh_public_key_pair.yml if you declared key_name(key name of ssh)
   include_tasks: do_create_server_with_ssh_public_key_pair.yml
-  when: "'ssh_public_key_pair_name' in server"
+  when: "'key_name' in server"
 
