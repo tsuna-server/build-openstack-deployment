@@ -11,8 +11,8 @@
     - { role: flavor, tags: ['role_flavor']}
     - { role: ssh_key, tags: ['role_ssh_key']}
     - { role: security_groups, tags: ['role_security_groups']}
+    - { role: volume, tags: ['role_volume']}
     - { role: server, tags: ['role_server']}
-    - { role: prepare_cinder_volumes, tags: ['add_and_attach_cinder_volumes']}
 
   environment:
     OS_USERNAME: "{{ group_vars.openstack.auth.env.OS_USERNAME }}"

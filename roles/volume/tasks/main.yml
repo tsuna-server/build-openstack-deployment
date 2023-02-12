@@ -2,6 +2,6 @@
 - name: "Declare cinder volume"
   include_tasks: create_cinder_volume.yml
   loop_control:
-    loop_var: cinder_volume
-  loop: "{{ group_vars.openstack.cinders.volumes }}"
+    loop_var: volume
+  loop: "{{ group_vars.openstack.volume }}"
 
