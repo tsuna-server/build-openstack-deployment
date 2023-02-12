@@ -5,4 +5,4 @@
   include_tasks: create_server/main.yml
   loop_control:
     loop_var: server
-  loop: "{{ group_vars.openstack.servers }}"
+  loop: "{{ group_vars.openstack.server }}"
