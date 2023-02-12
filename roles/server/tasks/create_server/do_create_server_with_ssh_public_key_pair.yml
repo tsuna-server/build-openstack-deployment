@@ -1,4 +1,8 @@
 ---
+- name: "Deeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeebug"
+  ansible.builtin.debug:
+    msg: "server => {{ server }}"
+
 - name: "Create a new instance with a public key [name={{ server.name }}, image={{ server.image }}, key_name={{ server.key_name }}, flavor={{ server.flavor }}, security_groups={{ server.security_groups }}]"
   openstack.cloud.server:
     state: present
