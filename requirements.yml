@@ -1,4 +1,5 @@
 ---
 collections:
+  # https://github.com/openstack/ansible-collections-openstack
   - name: openstack.cloud
     version: 2.0.0
