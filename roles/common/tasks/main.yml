@@ -1,0 +1,3 @@
+---
+- name: Update version of openstacksdk if OpenStack Zed has installed on Ubuntu22.04
+  ansible.builtin.script: ./update_openstacksdk_if_necessary.sh
