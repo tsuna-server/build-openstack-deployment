@@ -3,7 +3,7 @@
   set_fact:
     image_directory: "/var/openstack/images"
 
-- name: Prepare directory that images will be downloaded in
+- name: "Prepare directory {{ image_directory }} that images will be downloaded in"
   file:
     path: "{{ image_directory }}"
     state: directory
