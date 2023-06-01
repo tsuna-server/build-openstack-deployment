@@ -19,3 +19,7 @@
     project_name: admin
   register: subnet_info
 
+- name: "Show subnets"
+  ansible.builtin.debug:
+    msg: "{{ subnet_info }}"
+
