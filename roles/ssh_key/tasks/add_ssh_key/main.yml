@@ -4,11 +4,7 @@
     ssh_key_name: "{{ ssh_key.key }}"
     ssh_key_value: "{{ ssh_key.value.value }}"
 
-- name: Print ssh_key_name and ssh_key_value that will be registard
-  ansible.builtin.debug:
-    msg: "ssh_key_name={{ ssh_key_name }}, ssh_key_value={{ ssh_key_value }}"
-
-- name: Add public key to the OpenStack
+- name: "Add public key to the OpenStack. ssh_key_name={{ ssh_key_name }}, public_key={{ ssh_key_value }}"
   openstack.cloud.keypair:
     state: present
     name: "{{ ssh_key_name }}"
