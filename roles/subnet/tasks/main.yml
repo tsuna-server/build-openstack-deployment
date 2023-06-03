@@ -16,7 +16,6 @@
 # TODO: Project "admin" should be replaced by variable
 - name: Show list of network subnets
   openstack.cloud.subnets_info:
-    project_name: admin
   register: subnet_info
 
 - name: "Show subnets"

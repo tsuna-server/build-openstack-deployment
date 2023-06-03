@@ -7,8 +7,7 @@
 
 # TODO: Project "admin" should be replaced by variable
 - name: "Register a variable of routers"
-  openstack.cloud.router_info:
-    project_name: admin
+  openstack.cloud.routers_info:
   register: router_info
 
 - name: "Show routers"
