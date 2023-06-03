@@ -8,7 +8,7 @@
 
 - name: "Print a network that will be created"
   ansible.builtin.debug:
-    msg: "This is a task in subnet. [network={{ network }}]"
+    msg: "This is a task to create a subnet. network => {{ network }}"
 
 - name: "Declare parameters_of_network to create a network"
   set_fact:

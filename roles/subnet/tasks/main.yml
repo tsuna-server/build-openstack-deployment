@@ -13,3 +13,12 @@
     loop_var: subnet
   loop: "{{ group_vars.openstack.subnets }}"
 
+# TODO: Project "admin" should be replaced by variable
+- name: Show list of network subnets
+  openstack.cloud.subnets_info:
+  register: subnet_info
+
+- name: "Show subnets"
+  ansible.builtin.debug:
+    msg: "{{ subnet_info }}"
+

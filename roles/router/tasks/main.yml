@@ -5,3 +5,11 @@
     loop_var: router
   loop: "{{ group_vars.openstack.routers }}"
 
+# TODO: Project "admin" should be replaced by variable
+- name: "Register a variable of routers"
+  openstack.cloud.routers_info:
+  register: router_info
+
+- name: "Show routers"
+  ansible.builtin.debug:
+    msg: "{{ router_info }}"
