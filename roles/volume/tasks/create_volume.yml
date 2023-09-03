@@ -7,5 +7,5 @@
 #
 #   cinder_volume.display_name: A name of cinder volume
 
-- name: "Create a cinder volume {{ volume.display_name }}"
+- name: "Create a cinder volume {{ volume }}"
   openstack.cloud.volume: "{{ volume }}"
