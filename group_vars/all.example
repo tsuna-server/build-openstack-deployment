@@ -85,11 +85,9 @@ group_vars:
 
     floating_ips:
       # Parameters below are follows in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/floating_ip_module.html
-      - cloud: admin
-        server: vm1
+      - server: vm1
         reuse: true
         network: public
-        subnet_id: public_subnet
         fixed_address: 172.31.1.11
         wait: true
         timeout: 180
