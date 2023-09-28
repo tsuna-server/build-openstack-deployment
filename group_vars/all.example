@@ -83,6 +83,17 @@ group_vars:
           - 8.8.8.8
           - 8.8.4.4
 
+    floating_ips:
+      # Parameters below are follows in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/floating_ip_module.html
+      - cloud: admin
+        server: vm1
+        reuse: true
+        network: public
+        subnet_id: public_subnet
+        fixed_address: 172.31.1.11
+        wait: true
+        timeout: 180
+
     volume:
       # Parameters below are follows in https://docs.ansible.com/ansible/latest/collections/openstack/cloud/volume_module.html
       - name: vm2_vdb
@@ -100,6 +111,8 @@ group_vars:
           - net-name: private_net
         security_groups:
           - permit_all
+        floating_ips:
+          - 172.31.1.11
 
       - name: vm2
         image: ubuntu-22.04
