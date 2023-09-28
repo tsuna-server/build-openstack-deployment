@@ -59,12 +59,20 @@ has_floating_ip_already_existed() {
         return 2
     fi
 
-    if [[ "${result_count}" =~ ^(0|1)+$ ]]; then
+    if [[ ! "${result_count}" =~ ^[0-9]+$ ]]; then
         log_err "Failed to get count of floating_ip. A result of a command \"openstack floating ip list --project "$project" --network "$network" --floating-ip-address "$floating_ip_address" --format json | jq '. | length'\"). Its return code is \"$ret\" is invalid. An actual output is \"${result_count}\"."
         return 2
     fi
 
-    return 0
+    if [ -z "${result_count}" ]; then
+        return 0
+    fi
+
+    if [ ${result_count} -eq 0 ]; then
+        return 0
+    fi
+
+    return 1
 }
 
 main "$@"
