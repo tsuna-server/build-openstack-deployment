@@ -19,6 +19,9 @@ main() {
     return 0
 }
 
+# Regsiter floating IP.
+# This function never check whether the IP has already existed.
+# This function will return non 0 if the IP has already registered.
 register_floating_ip() {
     local network="$1"
     local subnet="$2"
