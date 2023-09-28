@@ -1,3 +1,11 @@
 ---
-- name: "Print a floating ip that will be created. ({{ floating_ip }})"
-  openstack.cloud.floating_ip: "{{ floating_ip }}"
+#- name: "Creating a floating ip. ({{ floating_ip }})"
+#  openstack.cloud.floating_ip: "{{ floating_ip }}"
+
+# Adding floating IP with this script because "openstack.cloud.floating_ip" module always requires "server" so far.
+# https://docs.ansible.com/ansible/latest/collections/openstack/cloud/floating_ip_module.html#ansible-collections-openstack-cloud-floating-ip-module
+#
+# This script can add a floating IP without any servers by using plain openstack command.
+- name: "Creating a floating IP with register_floating_ip.sh. (network={{ floating_ip.network }}, subnet={{ floating_ip.subnet }}, project={{ floating_ip.project }}, fixed_address={{ floating_ip.fixed_address }})"
+  ansible.builtin.script: ./register_floating_ip.sh "{{ rbac_object_type }}" "{{ rbac_object_id }}" "{{ rbac_domain }}" "{{ rbac_project_id }}"
+
