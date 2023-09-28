@@ -1,0 +1,6 @@
+---
+- name: Prepare floating_ips
+  include_tasks: prepare_floating_ip/main.yml
+  loop_control:
+    loop_var: floating_ip
+  loop: "{{ group_vars.openstack.floating_ips }}"
