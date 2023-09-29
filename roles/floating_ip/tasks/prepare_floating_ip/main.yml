@@ -7,6 +7,5 @@
 #
 # This script can add a floating IP without any servers by using plain openstack command.
 - name: "Creating a floating IP with register_floating_ip.sh. (network=\"{{ floating_ip.network }}\", subnet=\"{{ floating_ip.subnet }}\", project=\"{{ floating_ip.project }}\", fixed_address=\"{{ floating_ip.floating_ip_address }}\")"
-  #ansible.builtin.script: ./register_floating_ip.sh "{{ floating_ip.network }}" "{{ floating_ip.subnet }}" "{{ floating_ip.project }}" "{{ floating_ip.floating_ip_address }}"
-  ansible.builtin.script: ./register_floating_ip.sh "{{ floating_ip.network }}"
+  ansible.builtin.script: ./register_floating_ip.sh "{{ floating_ip.network }}" "{{ floating_ip.subnet }}" "{{ floating_ip.project }}" "{{ floating_ip.floating_ip_address }}"
 
