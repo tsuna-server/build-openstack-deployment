@@ -13,6 +13,14 @@ main() {
     local project="$3"
     local floating_ip_address="$4"
 
+    if [ ${#@} -ne 4 ]; then
+        log_err "$0 requires 4 arguments but found ${#@} arguments."
+        log_err "Usage:"
+        log_err "  $0 <network> <subnet> <project> <floating_ip_address>"
+
+        return 1
+    fi
+
     has_floating_ip_already_existed "$network" "$project" "$floating_ip_address" || return 1
     register_floating_ip "$network" "$subnet" "$project" "$floating_ip_address" || return 1
 
