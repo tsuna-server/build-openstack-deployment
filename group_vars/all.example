@@ -88,7 +88,7 @@ group_vars:
       - server: vm1
         reuse: true
         network: public
-        fixed_address: 172.31.1.11
+        floating_ip_address: 172.31.1.11
         wait: true
         timeout: 180
 
