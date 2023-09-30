@@ -15,9 +15,31 @@ main() {
 
     if [ ${#@} -ne 4 ]; then
         log_err "$0 requires 4 arguments but found ${#@} arguments."
-        log_err "Usage:"
-        log_err "  $0 <network> <subnet> <project> <floating_ip_address>"
+        print_usage
+        return 1
+    fi
 
+    if [ -z "$network" ]; then
+        log_err "This script ($0) requires name of network as 1st argument but found it as empty."
+        print_usage
+        return 1
+    fi
+
+    if [ -z "$subnet" ]; then
+        log_err "This script ($0) requires name of subnet as 2nd argument but found it as empty."
+        print_usage
+        return 1
+    fi
+
+    if [ -z "$project" ]; then
+        log_err "This script ($0) requires name of project as 3rd argument but found it as empty."
+        print_usage
+        return 1
+    fi
+
+    if [[ "$floating_ip_address" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        log_err "This script ($0) requires floating IP address as 4th argument but found it empty or wrong format."
+        print_usage
         return 1
     fi
 
@@ -25,6 +47,11 @@ main() {
     register_floating_ip "$network" "$subnet" "$project" "$floating_ip_address" || return 1
 
     return 0
+}
+
+print_usage() {
+    log_err "Usage:"
+    log_err "  $0 <network> <subnet> <project> <floating_ip_address>"
 }
 
 # Regsiter floating IP.
