@@ -37,7 +37,7 @@ main() {
         return 1
     fi
 
-    if [[ "$floating_ip_address" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    if [[ ! "$floating_ip_address" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         log_err "This script ($0) requires floating IP address as 4th argument but found it empty or wrong format. The actual is floating_ip_address=${floating_ip_address}"
         print_usage
         return 1
