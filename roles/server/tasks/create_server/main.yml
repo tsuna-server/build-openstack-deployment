@@ -30,7 +30,7 @@
     - name: "Declare server.nic[].port-id of a name of port \"{{ server.extended.name_of_port }}\""
       set_fact:
         server.nics: "{{ server.nics + [\"port-id\": port-uuid] }}"
-  when: "('extended' in server) and ('port' in server.extended)"
+  when: "('extended' in server) and ('name_of_port' in server.extended)"
 
 - name: Print a server that will be created
   ansible.builtin.debug:
