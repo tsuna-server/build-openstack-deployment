@@ -14,15 +14,15 @@ main() {
     fi
 
     # Getting plain output of the command "openstack port list"
-    output="$(openstack port list --name "${port_name}" --format json >&2)"
+    output="$(openstack port list --name "${port_name}" --format json 2>&1)"
     ret=$?
     if [ $ret -ne 0 ]; then
         log_err "Failed to get list of ports because a command \"openstack port list --name "${port_name}" --format json\" returned non 0. ReturnCode=${ret}, Output=${output}"
         return 1
     fi
 
-    if [ -z "${stdout}" ]; then
-        log_err "Failed to get list of ports. Because code that is returned was 0 but the output of \"openstack port list --name "${port_name}" --format json\" was empty."
+    if [ -z "${output}" ]; then
+        log_err "Failed to get list of ports. Because return-code was 0 but the output of \"openstack port list --name "${port_name}" --format json\" was empty."
         return 1
     fi
 
