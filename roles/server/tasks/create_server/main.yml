@@ -8,9 +8,29 @@
 
 # Due custome parameters
 
+#- name: "Declare option-nics to use it when \"openstack create server\""
 - name: "Declare option-nics to use it when \"openstack create server\""
   set_fact:
-    - option-nics: []
+    server.nics: []
+  when: "('nics' not in server)"
+
+- name: "Block to declare \"server.nic[].port-id\""
+  block:
+
+    # get_port_uuid_from_the_name.sh promises return 0 only if UUID could be printed correctly.
+    # Then this ansible does not have to check the output of it.
+    - name: "Get port uuid with get_port_uuid_from_the_name.sh"
+      ansible.builtin.script: ./get_port_uuid_from_the_name.sh "{{ server.extended.name_of_port }}"
+      register: result_port_uuid
+
+    - name: "Declare a variable \"port_uuid\" from \"result_port_uuid\""
+      set_fact:
+        port_uuid: "{{ result_port_uuid.stdout_lines[-1] }}"
+
+    - name: "Declare server.nic[].port-id of a name of port \"{{ server.extended.name_of_port }}\""
+      set_fact:
+        server.nics: "{{ server.nics + [\"port-id\": port-uuid] }}"
+  when: "('extended' in server) and ('port' in server.extended)"
 
 - name: Print a server that will be created
   ansible.builtin.debug:
