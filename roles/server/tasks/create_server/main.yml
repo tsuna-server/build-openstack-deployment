@@ -29,7 +29,7 @@
 
     - name: "Declare server.nic[].port-id of a name of port \"{{ server.extended.name_of_port }}\""
       set_fact:
-        server.nics: "{{ server.nics + [{\"port-id\": port-uuid}] }}"
+        server.nics: "{{ server.nics + [{\"port-id\": \"port_uuid\"}] }}"
   when: "('extended' in server) and ('name_of_port' in server.extended)"
 
 - name: "Reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeemove"
