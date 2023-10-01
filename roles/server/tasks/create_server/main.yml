@@ -32,6 +32,11 @@
         server.nics: "{{ server.nics + [\"port-id\": port-uuid] }}"
   when: "('extended' in server) and ('name_of_port' in server.extended)"
 
+- name: "Reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeemove"
+  set_fact:
+    server: "{{ server | ansible.utils.remove_keys(target=['extended']) }}"
+  when: "('extended' in server)"
+
 - name: Print a server that will be created
   ansible.builtin.debug:
     msg: "server.name={{ server.name }}, server.image={{ server.image }}, {% if 'key_name' in server %}server.key_name={{ server.key_name }}{% endif %}, server.nics={{ server.nics }}"
