@@ -5,7 +5,13 @@
 #   server:
 #     A variable of dictionary of the server that will be created.
 #
-# Declare an auth parameters
+
+# Due custome parameters
+
+- name: "Declare option-nics to use it when \"openstack create server\""
+  set_fact:
+    - option-nics: []
+
 - name: Print a server that will be created
   ansible.builtin.debug:
     msg: "server.name={{ server.name }}, server.image={{ server.image }}, {% if 'key_name' in server %}server.key_name={{ server.key_name }}{% endif %}, server.nics={{ server.nics }}"
