@@ -12,7 +12,7 @@
   block:
 
     # TODO: This instruction only support one option on nic "port-id".
-    #       If this ansible scc want to support 
+    #       If this ansible Ansible scenario want to support other options in "nics", we have to change the instructions.
 
     # get_port_uuid_from_the_name.sh promises return 0 only if UUID could be printed correctly.
     # Then this ansible does not have to check the output of it.
