@@ -1,0 +1,7 @@
+---
+- name: "Include prepare_port/main.yml"
+  include_tasks: prepare_port/main.yml
+  loop_control:
+    loop_var: port
+  loop: "{{ group_vars.openstack.ports }}"
+

@@ -13,6 +13,8 @@ main() {
     local project="$3"
     local floating_ip_address="$4"
 
+    local ret
+
     if [ ${#@} -ne 4 ]; then
         log_err "$0 requires 4 arguments but found ${#@} arguments."
         print_usage
@@ -36,14 +38,20 @@ main() {
         print_usage
         return 1
     fi
-
     if [[ ! "$floating_ip_address" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         log_err "This script ($0) requires floating IP address as 4th argument but found it empty or wrong format. The actual is floating_ip_address=${floating_ip_address}"
         print_usage
         return 1
     fi
 
-    has_floating_ip_already_existed "$network" "$project" "$floating_ip_address" || return 1
+    has_floating_ip_already_existed "$network" "$project" "$floating_ip_address"
+    ret=$?
+    if [ $ret -eq 1 ]; then
+        log_info "A floating IP \"${floating_ip_address}\" has already existed. [network=${network},subnet=${subnet},project=${project},floating_ip_address=${floating_ip_address}]"
+        return 0
+    fi
+    [ $ret -ne 0 ] && return 1
+
     register_floating_ip "$network" "$subnet" "$project" "$floating_ip_address" || return 1
 
     return 0
@@ -95,7 +103,7 @@ has_floating_ip_already_existed() {
     fi
 
     if [[ ! "${result_count}" =~ ^[0-9]+$ ]]; then
-        log_err "Failed to get count of floating_ip. A result of a command \"openstack floating ip list --project "$project" --network "$network" --floating-ip-address "$floating_ip_address" --format json | jq '. | length'\"). Its return code is \"$ret\" is invalid. An actual output is \"${result_count}\"."
+        log_err "Failed to get count of floating_ip. A result of a command \"openstack floating ip list --project "$project" --network "$network" --floating-ip-address "$floating_ip_address" --format json | jq '. | length'\"). Its return code is \"$ret\". An actual output is \"${result_count}\"."
         return 2
     fi
 

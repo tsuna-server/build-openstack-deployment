@@ -5,20 +5,40 @@
 #   server:
 #     A variable of dictionary of the server that will be created.
 #
-# Declare an auth parameters
+
+# Due custome parameters
+
+- name: "Block to declare \"server.nic[].port-id\""
+  block:
+
+    # TODO: This instruction only support one option on nic "port-id".
+    #       If this ansible Ansible scenario want to support other options in "nics", we have to change the instructions.
+
+    # get_port_uuid_from_the_name.sh promises return 0 only if UUID could be printed correctly.
+    # Then this ansible does not have to check the output of it.
+    - name: "Get port uuid with get_port_uuid_from_the_name.sh"
+      ansible.builtin.script: ./get_port_uuid_from_the_name.sh "{{ server.extended.name_of_port }}"
+      register: result_port_uuid
+
+    - name: "Declare a variable \"port_uuid\" from \"result_port_uuid\""
+      set_fact:
+        port_uuid: "{{ result_port_uuid.stdout_lines[-1] }}"
+
+    - name: "Declare server.nic[].port-id of a name of port \"{{ server.extended.name_of_port }}\""
+      set_fact:
+        copied_server: "{{ server | default({}) | combine({ 'nics': [{'port-id': port_uuid}] }) }}"
+
+  when: "('extended' in server) and ('name_of_port' in server.extended)"
+
+- name: "Remove extended parameter that is created temporary on variable files"
+  set_fact:
+    copied_server: "{{ copied_server | ansible.utils.remove_keys(target=['extended']) }}"
+  when: "('extended' in server)"
+
 - name: Print a server that will be created
   ansible.builtin.debug:
     msg: "server.name={{ server.name }}, server.image={{ server.image }}, {% if 'key_name' in server %}server.key_name={{ server.key_name }}{% endif %}, server.nics={{ server.nics }}"
 
-- name: "Create a new instance ({{ server }})"
-  openstack.cloud.server: "{{ server }}"
-
-## FIXME: Creating a server like below is not a flexible way.
-#- name: Include do_create_server.yml if you did not declare key_name(key name of ssh)
-#  include_tasks: do_create_server.yml
-#  when: "'key_name' not in server"
-#
-#- name: Include do_create_server_with_ssh_public_key_pair.yml if you declared key_name(key name of ssh)
-#  include_tasks: do_create_server_with_ssh_public_key_pair.yml
-#  when: "'key_name' in server"
+- name: "Create a new instance ({{ copied_server }})"
+  openstack.cloud.server: "{{ copied_server }}"
 

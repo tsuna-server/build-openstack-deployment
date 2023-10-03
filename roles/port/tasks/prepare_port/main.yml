@@ -1,0 +1,4 @@
+---
+# A parameter "port" will be passed from roles/port/tasks/main.yml.
+- name: "Creating a port ({{ port }})"
+  openstack.cloud.port: "{{ port }}"
