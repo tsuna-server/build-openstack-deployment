@@ -8,6 +8,10 @@
 
 # Due custome parameters
 
+- name: "Declare copied_server to realize an imutability a variable server"
+  set_fact:
+    copied_server: "{{ server }}"
+
 - name: "Block to declare \"server.nic[].port-id\""
   block:
 
@@ -26,7 +30,7 @@
 
     - name: "Declare server.nic[].port-id of a name of port \"{{ server.extended.name_of_port }}\""
       set_fact:
-        copied_server: "{{ server | default({}) | combine({ 'nics': [{'port-id': port_uuid}] }) }}"
+        copied_server: "{{ copied_server | default({}) | combine({ 'nics': [{'port-id': port_uuid}] }) }}"
 
   when: "('extended' in server) and ('name_of_port' in server.extended)"
 
