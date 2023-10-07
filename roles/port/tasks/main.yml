@@ -4,4 +4,5 @@
   loop_control:
     loop_var: port
   loop: "{{ group_vars.openstack.ports }}"
+  when: "('ports' in group_vars.openstack)"
 
