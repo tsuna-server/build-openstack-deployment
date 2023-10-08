@@ -1,0 +1,9 @@
+---
+- name: Copy shutdown_all_op_instances.sh
+  ansible.builtin.copy:
+    src: shutdown_all_op_instances.sh
+    dest: /opt/shutdown_all_op_instances.sh
+    owner: root
+    group: root
+    mode: '0755'
+
