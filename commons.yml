@@ -16,6 +16,7 @@
     - { role: port, tags: ['role_port']}
     - { role: floating_ip, tags: ['role_floating_ip']}
     - { role: server, tags: ['role_server']}
+    - { role: tools, tags: ['role_tools']}
 
   environment:
     OS_USERNAME: "{{ group_vars.openstack.auth.env.OS_USERNAME }}"
